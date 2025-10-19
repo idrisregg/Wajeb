@@ -1,0 +1,28 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #96a39e;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    pointer-events: none;
+    user-select: none;
+    margin-top: 210px;
+    height: 300px;
+    width: 300px;
+}
+@media (max-width: 600px) {
+    .logo {
+        margin-top: 160px;
+        height: 200px;
+        width: 200px;
+    }
+}
+
