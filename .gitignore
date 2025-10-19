@@ -1,25 +1,70 @@
-# Logs
-logs
-*.log
+# ----------------------------
+# 📦 Node general
+# ----------------------------
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
-src/config/
-node_modules
-dist
-dist-ssr
-*.local
-.env
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# ----------------------------
+# 🧠 Backend (back/)
+# ----------------------------
+back/node_modules/
+back/logs/
+back/uploads/
+back/temp/
+back/public/uploads/
+back/.env
+back/.env.*
+back/dist/
+back/build/
+back/src/config/*.js
+back/src/config/*.json
+back/src/config/*.env
+back/src/config/*.yml
+!back/src/config/config.example.js
+
+# ----------------------------
+# ⚛️ Frontend (front/)
+# ----------------------------
+front/node_modules/
+front/dist/
+front/build/
+front/src/config/api.js
+front/.env
+front/.env.*
+front/.vite/
+front/.cache/
+front/npm-debug.log*
+front/yarn-debug.log*
+front/yarn-error.log*
+
+# ----------------------------
+# 💾 Database files
+# ----------------------------
+*.sqlite
+*.db
+
+# ----------------------------
+# 🧠 IDE / Editor files
+# ----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# ----------------------------
+# 🖥️ System files
+# ----------------------------
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+desktop.ini
+
+# ----------------------------
+# 🧰 Misc
+# ----------------------------
+coverage/
+*.tgz
