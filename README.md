@@ -1,4 +1,4 @@
-# Wajeb File Management Application
+# Wajeb Homework App
 
 A modern, multilingual file management platform with dark/light theme support and comprehensive user authentication.
 
