@@ -1,3 +1,10 @@
+
+
+<img width="1906" height="909" alt="3" src="https://github.com/user-attachments/assets/87db18c1-3a24-40e8-a19a-8e62f7da8768" />
+<img width="1906" height="909" alt="1" src="https://github.com/user-attachments/assets/3925960a-88a3-4bf4-817b-1d034bc8d0cb" />
+<img width="1911" height="899" alt="5" src="https://github.com/user-attachments/assets/d52aebb6-d15e-4147-bdf8-4617e6a911d5" />
+<img width="1896" height="898" alt="4" src="https://github.com/user-attachments/assets/eabdaebb-1b43-4e2e-9974-eb9f6ab04fdc" />
+<img width="1919" height="903" alt="2" src="https://github.com/user-attachments/assets/a62dd042-8832-4b48-8951-466ffb29bff6" />
 # Wajeb Homework App
 
 A modern, multilingual file management platform with dark/light theme support and comprehensive user authentication.
