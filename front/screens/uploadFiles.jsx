@@ -125,7 +125,7 @@ const UploadFiles = () => {
 
                     {/* CHANGED: Recipient Username field */}
                     <div className="form-group">
-                        <label htmlFor="recipientUserName">{t('recipient') || 'Recipient Username'}:</label>
+                        <label htmlFor="recipientUserName">{t('recipient') || 'Recipient Username'}</label>
                         <input
                             type="text"
                             id="recipientUserName"
