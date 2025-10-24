@@ -1,8 +1,10 @@
 .language-toggle {
     position: relative;
+    z-index: 1000;
 }
 
 .language-dropdown {
+    z-index: 9999;
     position: relative;
     display: inline-block;
 }

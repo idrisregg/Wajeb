@@ -58,7 +58,7 @@ async function routes(fastify, options) {
     });
     
     // Other specific routes
-    fastify.get("/",{ onRequest: [fastify.jwtAuth] },UserController.getAllUsers);
+    fastify.get("/", { onRequest: [fastify.jwtAuth] }, UserController.getAllUsers);
     fastify.get("/me", { onRequest: [fastify.jwtAuth] }, async (request, reply) => {
         try {
             const userId = request.user.userId;

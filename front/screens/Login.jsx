@@ -33,6 +33,7 @@ const Login = () => {
 
     return (
         <>
+        <img className="logo" src="/icon.svg"/>
             <div className="container">
                 <div className="forms-container">
                     <div className="form-control signup-form">

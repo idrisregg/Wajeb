@@ -1,121 +1,116 @@
 import React from 'react';
 import './infoPages.scss';
+import { useLanguage } from '../context/languageContext';
 
 const PrivacyPolicy = () => {
+    const { t } = useLanguage();
+
     return (
         <div className="info-page">
             <div className="info-container">
-                <h1>سياسة الخصوصية</h1>
-                
+
+                <h1>{t('privacy_title')}</h1>
+
                 <div className="info-content">
+
+                    {/* Introduction */}
                     <section className="info-section">
-                        <h2>مقدمة</h2>
-                        <p>
-                            نحن في منصة واجب نلتزم بحماية خصوصيتك وبياناتك الشخصية. 
-                            هذه السياسة توضح كيفية جمع واستخدام وحماية معلوماتك عند استخدام منصتنا.
-                        </p>
+                        <h2>{t('privacy_intro_title')}</h2>
+                        <p>{t('privacy_intro_text')}</p>
                     </section>
 
+                    {/* Information We Collect */}
                     <section className="info-section">
-                        <h2>المعلومات التي نجمعها</h2>
-                        <h3>المعلومات الشخصية:</h3>
+                        <h2>{t('privacy_collect_title')}</h2>
+
+                        <h3>{t('privacy_collect_personal')}</h3>
                         <ul>
-                            <li>اسم المستخدم</li>
-                            <li>البريد الإلكتروني</li>
-                            <li>كلمة المرور (مشفرة)</li>
+                            {t('privacy_collect_personal_list').map((item, index) => (
+                                <li key={index}>{item}</li>
+                            ))}
                         </ul>
-                        
-                        <h3>معلومات الملفات:</h3>
+
+                        <h3>{t('privacy_collect_file')}</h3>
                         <ul>
-                            <li>اسم الملف الأصلي</li>
-                            <li>حجم الملف</li>
-                            <li>نوع الملف</li>
-                            <li>اسم المرسل</li>
-                            <li>وصف الملف (اختياري)</li>
-                            <li>العلامات (اختياري)</li>
+                            {t('privacy_collect_file_list').map((item, index) => (
+                                <li key={index}>{item}</li>
+                            ))}
                         </ul>
                     </section>
 
+                    {/* How We Use Information */}
                     <section className="info-section">
-                        <h2>كيفية استخدام المعلومات</h2>
-                        <p>نستخدم معلوماتك للأغراض التالية:</p>
+                        <h2>{t('privacy_use_title')}</h2>
+                        <p>{t('privacy_use_text')}</p>
                         <ul>
-                            <li>توفير خدمات المنصة</li>
-                            <li>إدارة حسابك</li>
-                            <li>حماية أمان المنصة</li>
-                            <li>تحسين الخدمات</li>
-                            <li>التواصل معك عند الحاجة</li>
+                            {t('privacy_use_list').map((item, index) => (
+                                <li key={index}>{item}</li>
+                            ))}
                         </ul>
                     </section>
 
+                    {/* Data Protection */}
                     <section className="info-section">
-                        <h2>حماية البيانات</h2>
-                        <p>
-                            نستخدم تقنيات أمان متقدمة لحماية بياناتك:
-                        </p>
+                        <h2>{t('privacy_protect_title')}</h2>
+                        <p>{t('privacy_protect_text')}</p>
                         <ul>
-                            <li>تشفير كلمات المرور</li>
-                            <li>اتصالات آمنة (HTTPS)</li>
-                            <li>حماية من الوصول غير المصرح به</li>
-                            <li>نسخ احتياطية منتظمة</li>
+                            {t('privacy_protect_list').map((item, index) => (
+                                <li key={index}>{item}</li>
+                            ))}
                         </ul>
                     </section>
 
+                    {/* Sharing Information */}
                     <section className="info-section">
-                        <h2>مشاركة المعلومات</h2>
-                        <p>
-                            نحن لا نبيع أو نؤجر معلوماتك الشخصية لأطراف ثالثة. 
-                            قد نشارك معلوماتك فقط في الحالات التالية:
-                        </p>
+                        <h2>{t('privacy_share_title')}</h2>
+                        <p>{t('privacy_share_text')}</p>
                         <ul>
-                            <li>بموافقتك الصريحة</li>
-                            <li>للمتطلبات القانونية</li>
-                            <li>لحماية حقوقنا أو حقوق المستخدمين الآخرين</li>
+                            {t('privacy_share_list').map((item, index) => (
+                                <li key={index}>{item}</li>
+                            ))}
                         </ul>
                     </section>
 
+                    {/* Cookies */}
                     <section className="info-section">
-                        <h2>ملفات تعريف الارتباط (Cookies)</h2>
-                        <p>
-                            نستخدم ملفات تعريف الارتباط لتحسين تجربتك في استخدام المنصة، 
-                            مثل تذكر تفضيلاتك وتسهيل عملية تسجيل الدخول.
-                        </p>
+                        <h2>{t('privacy_cookies_title')}</h2>
+                        <p>{t('privacy_cookies_text')}</p>
                     </section>
 
+                    {/* Your Rights */}
                     <section className="info-section">
-                        <h2>حقوقك</h2>
-                        <p>لديك الحق في:</p>
+                        <h2>{t('privacy_rights_title')}</h2>
+                        <p>{t('privacy_rights_text')}</p>
                         <ul>
-                            <li>الوصول إلى بياناتك الشخصية</li>
-                            <li>تصحيح البيانات غير الصحيحة</li>
-                            <li>حذف حسابك وبياناتك</li>
-                            <li>سحب الموافقة على معالجة البيانات</li>
+                            {t('privacy_rights_list').map((item, index) => (
+                                <li key={index}>{item}</li>
+                            ))}
                         </ul>
                     </section>
 
+                    {/* Policy Updates */}
                     <section className="info-section">
-                        <h2>التحديثات على السياسة</h2>
-                        <p>
-                            قد نقوم بتحديث هذه السياسة من وقت لآخر. سنقوم بإشعارك بأي تغييرات مهمة 
-                            عبر البريد الإلكتروني أو عبر المنصة.
-                        </p>
+                        <h2>{t('privacy_update_title')}</h2>
+                        <p>{t('privacy_update_text')}</p>
                     </section>
 
+                    {/* Contact */}
                     <section className="info-section">
-                        <h2>التواصل معنا</h2>
-                        <p>
-                            إذا كان لديك أي أسئلة حول سياسة الخصوصية هذه، 
-                            يرجى التواصل معنا:
-                        </p>
+                        <h2>{t('privacy_contact_title')}</h2>
+                        <p>{t('privacy_contact_text')}</p>
                         <div className="contact-info">
-                            <p><strong>البريد الإلكتروني:</strong> privacy@wajeb.com</p>
-                            <p><strong>الهاتف:</strong> +966 50 123 4567</p>
+                            <p><strong>{t('privacy_email_label')}</strong> idrisregg@gmail.com</p>
                         </div>
                     </section>
 
+                    {/* Last Updated */}
                     <div className="last-updated">
-                        <p><strong>آخر تحديث:</strong> {new Date().toLocaleDateString('ar-SA')}</p>
+                        <p>
+                            <strong>{t('privacy_last_updated')}</strong>
+                            {' ' + new Date().toLocaleDateString()}
+                        </p>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -123,4 +118,3 @@ const PrivacyPolicy = () => {
 };
 
 export default PrivacyPolicy;
-

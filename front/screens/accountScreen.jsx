@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/authContext';
 import { apiService } from '../src/services/apiService';
 import './accountScreen.scss';
+import { useLanguage } from '../context/languageContext';
+
 
 const AccountScreen = () => {
+    const {t}= useLanguage();
     const { user, logout } = useAuth();
     const [isEditing, setIsEditing] = useState(false);
     const [newUserName, setNewUserName] = useState(user?.userName || '');
@@ -61,31 +64,29 @@ const AccountScreen = () => {
     return (
         <div className="account-container">
             <div className="account-header">
-                <h1>إدارة الحساب</h1>
-                <p>إدارة معلوماتك الشخصية وإعدادات الحساب</p>
+                <h1 className='head'>{t('accountManagement')} </h1>
             </div>
 
             <div className="account-content">
-                {/* Profile Information */}
                 <div className="account-section">
                     <div className="section-header">
-                        <h2>المعلومات الشخصية</h2>
+                        <h2>{t('personalInfo')}</h2>
                         <button 
                             className="edit-btn"
                             onClick={() => setIsEditing(!isEditing)}
                         >
-                            {isEditing ? 'إلغاء' : 'تعديل'}
+                            {isEditing ? t('cancel') : t('edit')}
                         </button>
                     </div>
 
                     <div className="profile-info">
                         <div className="info-item">
-                            <label>البريد الإلكتروني:</label>
+                            <label>{t('email')}: </label>
                             <span>{user?.email}</span>
                         </div>
                         
                         <div className="info-item">
-                            <label>اسم المستخدم:</label>
+                            <label> {t('username')} :</label>
                             {isEditing ? (
                                 <input
                                     type="text"
@@ -97,11 +98,6 @@ const AccountScreen = () => {
                                 <span>{user?.userName}</span>
                             )}
                         </div>
-
-                        <div className="info-item">
-                            <label>تاريخ التسجيل:</label>
-                            <span>{new Date(user?.createdAt).toLocaleDateString('ar-SA')}</span>
-                        </div>
                     </div>
 
                     {isEditing && (
@@ -111,7 +107,7 @@ const AccountScreen = () => {
                                 className="save-btn"
                                 disabled={loading || !newUserName.trim()}
                             >
-                                {loading ? 'جاري الحفظ...' : 'حفظ التغييرات'}
+                                {loading ? t('saving')  : t('saveChanges')}
                             </button>
                         </form>
                     )}
@@ -120,25 +116,17 @@ const AccountScreen = () => {
                 {/* Account Actions */}
                 <div className="account-section">
                     <div className="section-header">
-                        <h2>إجراءات الحساب</h2>
+                        <h2>{t('accountActions')}</h2>
                     </div>
 
                     <div className="account-actions">
-                        <button 
-                            className="logout-action"
-                            onClick={logout}
-                        >
-                            <span className="action-icon">🚪</span>
-                            تسجيل الخروج
-                        </button>
 
                         <button 
                             className="delete-action"
                             onClick={handleDeleteAccount}
                             disabled={loading}
                         >
-                            <span className="action-icon">🗑️</span>
-                            {loading ? 'جاري الحذف...' : 'حذف الحساب'}
+                            {loading ? t('deleting'): t('deleteAccount')}
                         </button>
                     </div>
                 </div>
@@ -146,31 +134,31 @@ const AccountScreen = () => {
                 {/* Statistics */}
                 <div className="account-section">
                     <div className="section-header">
-                        <h2>إحصائيات الحساب</h2>
+                        <h2>{t('accountStats')}</h2>
                     </div>
 
                     <div className="stats-grid">
                         <div className="stat-card">
                             <div className="stat-icon">📁</div>
                             <div className="stat-info">
-                                <h3>الملفات المرفوعة</h3>
-                                <p>0 ملف</p>
+                                <h3>{t('uploadedFiles')}</h3>
+                                <p>0 {t('file')}</p>
                             </div>
                         </div>
 
                         <div className="stat-card">
                             <div className="stat-icon">📥</div>
                             <div className="stat-info">
-                                <h3>الملفات المستلمة</h3>
-                                <p>0 ملف</p>
+                                <h3>{t('receivedFiles')}</h3>
+                                <p>0 {t('file')}</p>
                             </div>
                         </div>
 
                         <div className="stat-card">
                             <div className="stat-icon">⬇️</div>
                             <div className="stat-info">
-                                <h3>إجمالي التحميلات</h3>
-                                <p>0 تحميل</p>
+                                <h3>{t('totalDownloads')} </h3>
+                                <p>0 {t('download')}</p>
                             </div>
                         </div>
                     </div>

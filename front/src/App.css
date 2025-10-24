@@ -2,7 +2,7 @@ body {
     padding: 0;
     margin: 0;
     background-color: #96a39e;
-}
+ }
 
 .app {
     display: flex;
@@ -11,10 +11,32 @@ body {
     justify-content: center;
 }
 
+.floating {
+    transform: translate(-50%, -50%);
+    animation: floating 2s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+p,h1,h2,h3,h4,h5,h6 {
+    user-select: none;
+}
+
 .logo {
     pointer-events: none;
     user-select: none;
-    margin-top: 210px;
     height: 300px;
     width: 300px;
 }
@@ -24,5 +46,5 @@ body {
         height: 200px;
         width: 200px;
     }
+   
 }
-

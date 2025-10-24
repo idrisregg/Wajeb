@@ -1,25 +1,24 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/authContext';
 import { apiService } from '../src/services/apiService';
 import './viewReceivedFiles.scss';
+import { useLanguage } from '../context/languageContext';
+
 
 const ViewReceivedFiles = () => {
+    const { t } = useLanguage();
     const { token } = useAuth();
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [showPublic, setShowPublic] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [pagination, setPagination] = useState({});
 
-    const fetchFiles = async (page = 1, publicOnly = false) => {
+    const fetchFiles = async (page = 1) => {
         try {
             setLoading(true);
-            const data = publicOnly 
-                ? await apiService.getPublicFiles(page, 10)
-                : await apiService.getUserFiles(page, 10);
-            
+            const data = await apiService.getFiles(page, 10);
+
             setFiles(data.files);
             setPagination(data.pagination);
         } catch (err) {
@@ -32,41 +31,56 @@ const ViewReceivedFiles = () => {
 
     useEffect(() => {
         if (token) {
-            fetchFiles(currentPage, showPublic);
+            fetchFiles(currentPage);
         }
-    }, [token, currentPage, showPublic]);
+    }, [token, currentPage]);
 
     const handleDownload = async (fileId, fileName) => {
         try {
-            const blob = await apiService.downloadFile(fileId);
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
+            await apiService.downloadFile(fileId);
+
         } catch (err) {
             setError(err.message || 'Download failed');
             console.error('Download error:', err);
         }
     };
 
-    const handleDelete = async (fileId) => {
-        if (!window.confirm('Are you sure you want to delete this file?')) {
+    const handleDelete = async (fileId, fileName) => {
+        if (!window.confirm(`Are you sure you want to delete "${fileName}"?`)) {
             return;
         }
 
         try {
+            console.log('Deleting file:', fileId, fileName);
             await apiService.deleteFile(fileId);
-            // Refresh the file list
-            fetchFiles(currentPage, showPublic);
+
+            // Refresh the files list after successful deletion
+            await fetchFiles(currentPage);
+
+            // Clear any previous errors
+            setError('');
+
         } catch (err) {
-            setError(err.message || 'Delete failed');
-            console.error('Delete error:', err);
+            console.error('Delete error details:', {
+                message: err.message,
+                fileId: fileId,
+                fileName: fileName
+            });
+
+            // Try to get more specific error message
+            let errorMessage = 'Delete failed. Please try again.';
+            if (err.message.includes('400')) {
+                errorMessage = 'Invalid request. The file ID might be corrupted.';
+            } else if (err.message.includes('403')) {
+                errorMessage = 'You are not authorized to delete this file.';
+            } else if (err.message.includes('404')) {
+                errorMessage = 'File not found. It may have been already deleted.';
+            }
+
+            setError(errorMessage);
         }
     };
+
 
     const formatFileSize = (bytes) => {
         if (bytes === 0) return '0 Bytes';
@@ -97,28 +111,14 @@ const ViewReceivedFiles = () => {
     return (
         <div className="files-container">
             <div className="files-header">
-                <h2>{showPublic ? 'Public Files' : 'My Files'}</h2>
-                <div className="view-controls">
-                    <button 
-                        className={`view-btn ${!showPublic ? 'active' : ''}`}
-                        onClick={() => setShowPublic(false)}
-                    >
-                        My Files
-                    </button>
-                    <button 
-                        className={`view-btn ${showPublic ? 'active' : ''}`}
-                        onClick={() => setShowPublic(true)}
-                    >
-                        Public Files
-                    </button>
-                </div>
+                <h2>{t('myFiles')}</h2>
             </div>
 
             {error && <div className="error-message">{error}</div>}
 
             {files.length === 0 ? (
                 <div className="no-files">
-                    <p>No files found.</p>
+                    <p>{t('noFilesFound')}</p>
                 </div>
             ) : (
                 <>
@@ -126,14 +126,13 @@ const ViewReceivedFiles = () => {
                         <table className="files-table">
                             <thead>
                                 <tr>
-                                    <th>اسم الملف</th>
-                                    <th>اسم المرسل</th>
-                                    <th>الحجم</th>
-                                    <th>النوع</th>
-                                    <th>تاريخ الرفع</th>
-                                    <th>عدد التحميلات</th>
-                                    <th>الحالة</th>
-                                    <th>الإجراءات</th>
+                                    <th>{t('fileName')}</th>
+                                    <th> {t('sender')}</th>
+                                    <th>{t('size')}</th>
+                                    <th>{t('type')}</th>
+                                    <th>{t('uploadDate')} </th>
+                                    <th>{t('downloads')} </th>
+                                    <th>{t('actions')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -162,31 +161,22 @@ const ViewReceivedFiles = () => {
                                         <td className="downloads-cell">
                                             <span className="download-count">{file.downloadCount}</span>
                                         </td>
-                                        <td className="status-cell">
-                                            {file.isPublic ? (
-                                                <span className="status-badge public">عام</span>
-                                            ) : (
-                                                <span className="status-badge private">خاص</span>
-                                            )}
-                                        </td>
                                         <td className="actions-cell">
                                             <div className="table-actions">
-                                                <button 
+                                                <button
                                                     className="action-btn download"
                                                     onClick={() => handleDownload(file._id, file.originalName)}
                                                     title="تحميل"
                                                 >
-                                                    ⬇️
+                                                    {t('download')}
                                                 </button>
-                                                {!showPublic && (
-                                                    <button 
-                                                        className="action-btn delete"
-                                                        onClick={() => handleDelete(file._id)}
-                                                        title="حذف"
-                                                    >
-                                                        🗑️
-                                                    </button>
-                                                )}
+                                                <button
+                                                    className="action-btn delete"
+                                                    onClick={() => handleDelete(file._id,file.originalName)}
+                                                    title="حذف"
+                                                >
+                                                    {t('delete')}
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -197,19 +187,19 @@ const ViewReceivedFiles = () => {
 
                     {pagination.totalPages > 1 && (
                         <div className="pagination">
-                            <button 
+                            <button
                                 className="page-btn"
                                 onClick={() => setCurrentPage(currentPage - 1)}
                                 disabled={!pagination.hasPrev}
                             >
                                 Previous
                             </button>
-                            
+
                             <span className="page-info">
                                 Page {pagination.currentPage} of {pagination.totalPages}
                             </span>
-                            
-                            <button 
+
+                            <button
                                 className="page-btn"
                                 onClick={() => setCurrentPage(currentPage + 1)}
                                 disabled={!pagination.hasNext}

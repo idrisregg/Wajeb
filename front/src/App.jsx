@@ -21,7 +21,6 @@ function App() {
                 <AuthProvider>
                     <Router>
                         <div className='app'>
-                            <ThemeToggle className="floating" />
                             <LanguageToggle className="floating" />
                             <Routes>
                                 <Route path="/" element={<Login />} />

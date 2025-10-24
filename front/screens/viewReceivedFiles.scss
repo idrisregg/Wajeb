@@ -176,8 +176,11 @@
 }
 
 .table-actions {
+  button{
+    font-size: 13px;
+  }
   display: flex;
-  gap: 0.5rem;
+  gap: 35px;
   justify-content: center;
 }
 

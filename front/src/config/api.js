@@ -1,7 +1,7 @@
 // API Configuration for different environments
 const config = {
   development: {
-    API_BASE_URL: 'http://localhost:3001',
+    API_BASE_URL: 'http://localhost:3004',
     APP_NAME: 'Wajeb',
     APP_VERSION: '1.0.0',
     APP_ENV: 'development'

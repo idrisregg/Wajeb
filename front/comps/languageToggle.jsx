@@ -6,9 +6,9 @@ const LanguageToggle = ({ className = '' }) => {
     const { language, setLanguage, t } = useLanguage();
 
     const languages = [
-        { code: 'ar', name: 'العربية', flag: '🇸🇦' },
-        { code: 'en', name: 'English', flag: '🇺🇸' },
-        { code: 'fr', name: 'Français', flag: '🇫🇷' }
+        { code: 'ar', name: 'العربية', flag: 'AR' },
+        { code: 'en', name: 'English', flag: 'EN' },
+        { code: 'fr', name: 'Français', flag: 'FR' }
     ];
 
     const currentLanguage = languages.find(lang => lang.code === language);

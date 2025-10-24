@@ -1,6 +1,8 @@
 const File = require('../models/file.model');
+const User = require('../models/user.model');
 const fs = require('fs');
 const path = require('path');
+const { pipeline } = require('stream/promises');
 
 // Create uploads directory if it doesn't exist
 const uploadsDir = path.join(__dirname, '../../uploads');
@@ -9,50 +11,104 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 async function uploadFile(req, reply) {
+    let filePath = null;
+    
     try {
-        const data = await req.file();
+        // CHECK: Has user uploaded a file in the last 3 days?
+        const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+        const recentUpload = await File.findOne({
+            uploadedBy: req.user.userId,
+            createdAt: { $gte: threeDaysAgo }
+        });
+
+        if (recentUpload) {
+            const nextAllowedDate = new Date(recentUpload.createdAt.getTime() + 3 * 24 * 60 * 60 * 1000);
+            return reply.status(429).send({ 
+                error: 'Upload limit reached',
+                message: `You can only upload one file every 3 days. Next upload allowed: ${nextAllowedDate.toLocaleString()}`,
+                nextAllowedDate: nextAllowedDate
+            });
+        }
         
-        if (!data) {
+        const parts = req.parts();
+        let fileData = null;
+        const fields = {};
+
+        // Process all parts (both file and fields)
+        for await (const part of parts) {
+            if (part.file) {
+                const fileExtension = path.extname(part.filename);
+                const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2)}${fileExtension}`;
+                filePath = path.join(uploadsDir, uniqueFileName);
+
+                await pipeline(part.file, fs.createWriteStream(filePath));
+                
+                const stats = fs.statSync(filePath);
+
+                fileData = {
+                    savedPath: filePath,
+                    uniqueName: uniqueFileName,
+                    originalName: part.filename,
+                    mime: part.mimetype,
+                    size: stats.size
+                };
+            } else {
+                fields[part.fieldname] = part.value;
+            }
+        }
+
+        if (!fileData) {
             return reply.status(400).send({ 
                 error: 'No file uploaded' 
             });
         }
 
-        const { senderName, description, tags, isPublic } = req.body;
+        // Extract fields
+        const { senderName, description, tags, recipientUserName } = fields;
         
-        if (!senderName) {
+        if (!senderName || !senderName.trim()) {
+            if (filePath && fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
             return reply.status(400).send({ 
                 error: 'Sender name is required' 
             });
         }
 
-        // Generate unique filename
-        const fileExtension = path.extname(data.filename);
-        const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2)}${fileExtension}`;
-        const filePath = path.join(uploadsDir, uniqueFileName);
+        // Validate recipient username
+        if (!recipientUserName || !recipientUserName.trim()) {
+            if (filePath && fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
+            return reply.status(400).send({ 
+                error: 'Recipient username is required' 
+            });
+        }
 
-        // Save file to disk
-        const writeStream = fs.createWriteStream(filePath);
-        await data.file.pipe(writeStream);
+        // Check if recipient user exists
+        const recipientUser = await User.findOne({ userName: recipientUserName.trim() });
+        if (!recipientUser) {
+            if (filePath && fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
+            return reply.status(404).send({ 
+                error: 'Recipient user not found',
+                message: `No user found with username: ${recipientUserName.trim()}`
+            });
+        }
 
-        // Wait for file to be written
-        await new Promise((resolve, reject) => {
-            writeStream.on('finish', resolve);
-            writeStream.on('error', reject);
-        });
-
-        // Create file record in database
+        // Create database record
         const fileRecord = await File.create({
-            fileName: uniqueFileName,
-            originalName: data.filename,
-            filePath: filePath,
-            fileSize: data.file.bytesRead || 0,
-            mimeType: data.mimetype,
+            fileName: fileData.uniqueName,
+            originalName: fileData.originalName,
+            filePath: fileData.savedPath,
+            fileSize: fileData.size,
+            mimeType: fileData.mime,
             uploadedBy: req.user.userId,
-            senderName: senderName,
-            description: description || '',
-            isPublic: isPublic === 'true',
-            tags: tags ? tags.split(',').map(tag => tag.trim()) : []
+            recipientUserName: recipientUserName.trim(),
+            senderName: senderName.trim(),
+            description: description ? description.trim() : '',
+            tags: tags ? tags.split(',').map(tag => tag.trim()).filter(tag => tag) : []
         });
 
         reply.status(201).send({
@@ -64,8 +120,8 @@ async function uploadFile(req, reply) {
                 fileSize: fileRecord.fileSize,
                 mimeType: fileRecord.mimeType,
                 senderName: fileRecord.senderName,
+                recipientUserName: fileRecord.recipientUserName,
                 description: fileRecord.description,
-                isPublic: fileRecord.isPublic,
                 tags: fileRecord.tags,
                 uploadedAt: fileRecord.createdAt
             }
@@ -73,27 +129,37 @@ async function uploadFile(req, reply) {
 
     } catch (error) {
         console.error('File upload error:', error);
+        
+        if (filePath && fs.existsSync(filePath)) {
+            try {
+                fs.unlinkSync(filePath);
+            } catch (cleanupError) {
+                console.error('Error cleaning up file:', cleanupError);
+            }
+        }
+        
         reply.status(500).send({ 
             error: 'Failed to upload file',
-            details: error.message 
+            details: error.message
         });
     }
 }
 
 async function getAllFiles(req, reply) {
     try {
-        const { page = 1, limit = 10, public } = req.query;
+        const { page = 1, limit = 10 } = req.query;
         const skip = (page - 1) * limit;
 
-        let query = {};
-        
-        // If requesting public files, show only public files
-        // Otherwise, show user's own files
-        if (public === 'true') {
-            query.isPublic = true;
-        } else {
-            query.uploadedBy = req.user.userId;
+        // Get current user's username
+        const currentUser = await User.findById(req.user.userId);
+        if (!currentUser) {
+            return reply.status(404).send({ error: 'User not found' });
         }
+
+        // Get files sent TO the logged-in user
+        const query = {
+            recipientUserName: currentUser.userName
+        };
 
         const files = await File.find(query)
             .populate('uploadedBy', 'userName email')
@@ -132,8 +198,14 @@ async function getFileById(req, reply) {
             });
         }
 
-        // Check if user can access this file
-        if (!file.isPublic && file.uploadedBy._id.toString() !== req.user.userId) {
+        // Get current user's username
+        const currentUser = await User.findById(req.user.userId);
+        
+        // Check if user can access this file (either sender or recipient)
+        const isRecipient = file.recipientUserName === currentUser.userName;
+        const isSender = file.uploadedBy._id.toString() === req.user.userId;
+        
+        if (!file.isPublic && !isRecipient && !isSender) {
             return reply.status(403).send({ 
                 error: 'Access denied' 
             });
@@ -159,8 +231,14 @@ async function downloadFile(req, reply) {
             });
         }
 
-        // Check if user can access this file
-        if (!file.isPublic && file.uploadedBy.toString() !== req.user.userId) {
+        // Get current user's username
+        const currentUser = await User.findById(req.user.userId);
+        
+        // Check if user can access this file (either sender or recipient)
+        const isRecipient = file.recipientUserName === currentUser.userName;
+        const isSender = file.uploadedBy.toString() === req.user.userId;
+        
+        if (!file.isPublic && !isRecipient && !isSender) {
             return reply.status(403).send({ 
                 error: 'Access denied' 
             });
@@ -178,12 +256,12 @@ async function downloadFile(req, reply) {
             $inc: { downloadCount: 1 } 
         });
 
-        // Set appropriate headers
+        // Set headers and send file
         reply.header('Content-Disposition', `attachment; filename="${file.originalName}"`);
-        reply.header('Content-Type', file.mimeType);
+        reply.header('Content-Type', file.mimeType || 'application/octet-stream');
         
-        // Send file
-        reply.send(fs.createReadStream(file.filePath));
+        const fileStream = fs.createReadStream(file.filePath);
+        return reply.send(fileStream);
 
     } catch (error) {
         console.error('Download file error:', error);
@@ -241,37 +319,88 @@ async function updateFile(req, reply) {
 
 async function deleteFile(req, reply) {
     try {
-        const file = await File.findById(req.params.id);
+        const fileId = req.params.id;
+        console.log('DELETE request received for file ID:', fileId);
+        console.log('User ID making request:', req.user.userId);
+
+        // Validate file ID format
+        if (!fileId || fileId.length !== 24) {
+            console.log('Invalid file ID format:', fileId);
+            return reply.status(400).send({ 
+                error: "Invalid file ID format" 
+            });
+        }
+
+        // Find the file first to check if it exists
+        const file = await File.findById(fileId);
+        console.log('File found:', file ? file._id : 'NOT FOUND');
         
         if (!file) {
             return reply.status(404).send({ 
-                error: 'File not found' 
+                error: "File not found" 
+            });
+        }
+        
+        // Get current user's information
+        const currentUser = await User.findById(req.user.userId);
+        if (!currentUser) {
+            console.log('Current user not found:', req.user.userId);
+            return reply.status(404).send({ 
+                error: "User not found" 
             });
         }
 
-        // Check if user owns this file
-        if (file.uploadedBy.toString() !== req.user.userId) {
+        console.log('Current user:', currentUser.userName);
+        console.log('File recipient:', file.recipientUserName);
+        console.log('File uploaded by:', file.uploadedBy.toString());
+        
+        // Check if user is authorized (either sender or recipient)
+        const isSender = file.uploadedBy.toString() === req.user.userId;
+        const isRecipient = file.recipientUserName === currentUser.userName;
+        
+        console.log('Is sender:', isSender);
+        console.log('Is recipient:', isRecipient);
+        
+        if (!isSender && !isRecipient) {
+            console.log('User not authorized to delete this file');
             return reply.status(403).send({ 
-                error: 'Access denied' 
+                error: "Not authorized to delete this file" 
             });
         }
-
-        // Delete file from disk
+        
+        // Delete the actual file from storage
         if (fs.existsSync(file.filePath)) {
-            fs.unlinkSync(file.filePath);
+            try {
+                fs.unlinkSync(file.filePath);
+                console.log(`Deleted physical file: ${file.filePath}`);
+            } catch (fsError) {
+                console.error('Error deleting file from disk:', fsError);
+            }
+        } else {
+            console.log('Physical file not found at path:', file.filePath);
         }
-
-        // Delete file record from database
-        await File.findByIdAndDelete(req.params.id);
-
-        reply.send({
-            message: 'File deleted successfully'
+        
+        // Delete from database
+        await File.findByIdAndDelete(fileId);
+        console.log(`File ${fileId} deleted successfully`);
+        
+        reply.send({ 
+            message: "File deleted successfully",
+            fileId: fileId 
         });
-
     } catch (error) {
         console.error('Delete file error:', error);
+        
+        // Handle invalid ObjectId format
+        if (error.name === 'CastError') {
+            console.log('CastError - Invalid ObjectId');
+            return reply.status(400).send({ 
+                error: "Invalid file ID format" 
+            });
+        }
+        
         reply.status(500).send({ 
-            error: 'Failed to delete file',
+            error: "Failed to delete file",
             details: error.message 
         });
     }
@@ -285,5 +414,3 @@ module.exports = {
     updateFile,
     deleteFile
 };
-
-

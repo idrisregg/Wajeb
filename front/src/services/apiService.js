@@ -5,7 +5,6 @@ class ApiService {
     this.baseURL = currentConfig.API_BASE_URL;
   }
 
-  // Generic request method
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`;
     const config = {
@@ -16,7 +15,6 @@ class ApiService {
       ...options
     };
 
-    // Add auth token if available
     const token = localStorage.getItem('Access_Token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -70,30 +68,39 @@ class ApiService {
   }
 
   // File API methods
-  async uploadFile(formData) {
+  async uploadFile(formData, recipientId) {
     const token = localStorage.getItem('Access_Token');
     const url = `${this.baseURL}/api/files/upload`;
     
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-      body: formData
-    });
+    // Add recipient to form data
+    formData.append('recipientId', recipientId);
+    
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
 
-    const data = await response.json();
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Upload failed');
+      }
 
-    if (!response.ok) {
-      throw new Error(data.error || `HTTP error! status: ${response.status}`);
+      return response.json();
+    } catch (error) {
+      console.error('Upload error:', error);
+      throw error;
     }
-
-    return data;
   }
 
-  async getFiles(page = 1, limit = 10, publicOnly = false) {
-    const endpoint = publicOnly ? '/api/files/public' : '/api/files';
-    return this.request(`${endpoint}?page=${page}&limit=${limit}`);
+  async getFiles(page = 1, limit = 10, recipientId = null) {
+    const endpoint = recipientId 
+      ? `/api/files?page=${page}&limit=${limit}&recipient=${recipientId}`
+      : `/api/files?page=${page}&limit=${limit}`;
+    return this.request(endpoint);
   }
 
   async getFileById(fileId) {
@@ -103,19 +110,43 @@ class ApiService {
   async downloadFile(fileId) {
     const token = localStorage.getItem('Access_Token');
     const url = `${this.baseURL}/api/files/${fileId}/download`;
-    
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${token}`
+
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Download failed: ${response.statusText}`);
       }
-    });
 
-    if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.error || `HTTP error! status: ${response.status}`);
+      // Get filename from headers
+      const contentDisposition = response.headers.get('content-disposition');
+      const filename = contentDisposition
+        ? contentDisposition.split('filename=')[1].replace(/"/g, '')
+        : 'download';
+
+      // Convert response to blob
+      const blob = await response.blob();
+      
+      // Create download link
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+
+      return { success: true };
+    } catch (error) {
+      console.error('Download error:', error);
+      throw error;
     }
-
-    return response;
   }
 
   async updateFile(fileId, data) {
@@ -125,12 +156,30 @@ class ApiService {
     });
   }
 
-  async deleteFile(fileId) {
-    return this.request(`/api/files/${fileId}`, {
-      method: 'DELETE'
+ async deleteFile(fileId) {
+  const token = localStorage.getItem('Access_Token');
+  const url = `${this.baseURL}/api/files/${fileId}`;
+  
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+        // Remove Content-Type for DELETE requests without body
+      }
     });
-  }
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Delete file error:', error);
+    throw error;
+  }
+}
   // Health check
   async healthCheck() {
     return this.request('/health');
@@ -145,5 +194,3 @@ class ApiService {
 // Create and export singleton instance
 export const apiService = new ApiService();
 export default apiService;
-
-

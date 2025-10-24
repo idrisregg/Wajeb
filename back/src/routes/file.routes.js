@@ -4,7 +4,6 @@ async function routes(fastify, options) {
     // File upload routes
     fastify.post('/upload', { 
         onRequest: [fastify.jwtAuth],
-        preHandler: fastify.multipart
     }, FileController.uploadFile);
 
     // Get all files (user's own files or public files)

@@ -38,9 +38,7 @@ const ThemeToggle = ({ className = '' }) => {
                     </svg>
                 )}
             </div>
-            <span className="theme-toggle-text">
-                {isDark ? '☀️' : '🌙'}
-            </span>
+   
         </button>
     );
 };

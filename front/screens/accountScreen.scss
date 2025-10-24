@@ -4,7 +4,96 @@
   margin: 2rem auto;
   padding: 0 1rem;
 }
+.account-container{
+  span{
+    font-size: 30px;
+    margin-right: 20px;
+  }
+  label{
+    font-size: 28px;
+  }
+  p{
+    font-size: 30px;
+  }
+  .head{
+    text-align: center;
+    margin-bottom: 30px;
+  }
+}
 
+.save-btn{
+   margin-top:15px;
+  margin-bottom:15px;
+  cursor:pointer;
+  font-family: inherit;
+  font-size: 18px;
+  background: royalblue;
+  font-weight:600;
+  color: white;
+  padding: 0.7em 1em;
+  padding-left: 0.9em;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.edit-btn{
+   margin-top:15px;
+  margin-bottom:15px;
+  cursor:pointer;
+  font-family: inherit;
+  font-size: 18px;
+  background: royalblue;
+  font-weight:600;
+  color: white;
+  padding: 0.7em 1em;
+  padding-left: 0.9em;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.edit-btn:hover{
+  background:lightblue;
+}
+.edit-input{
+  padding: 0.75rem;
+  border: 1px solid black;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+.delete-action{
+  margin-top:15px;
+  margin-bottom:15px;
+  cursor:pointer;
+  font-family: inherit;
+  font-size: 18px;
+  background: royalblue;
+  font-weight:600;
+  color: white;
+  padding: 0.7em 1em;
+  padding-left: 0.9em;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.delete-action:hover{
+  background:lightblue;
+}
 .account-card {
   background: var(--bg-secondary);
   border-radius: 12px;
@@ -22,7 +111,6 @@
   }
 }
 
-// Section Styling
 .profile-info-section,
 .password-section,
 .account-actions-section {
@@ -168,7 +256,23 @@
 }
 
 // Responsive Design
-@media (max-width: 768px) {
+@media (max-width: 500px) {
+  .account-container{
+    span{
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  label{
+    font-size: 18px;
+  }
+  p{
+    font-size: 20px;
+  }
+  .head{
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  }
   .account-card {
     padding: 1.5rem;
 

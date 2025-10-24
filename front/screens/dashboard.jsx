@@ -5,7 +5,6 @@ import ThemeToggle from '../comps/themeToggle';
 import UploadFiles from './uploadFiles';
 import ViewReceivedFiles from './viewReceivedFiles';
 import AccountScreen from './accountScreen';
-import AboutUs from './aboutUs';
 import PrivacyPolicy from './privacyPolicy';
 import './dashboard.scss';
 
@@ -20,7 +19,6 @@ const Dashboard = () => {
         { id: 'upload', label: t('upload'), icon: '📤' },
         { id: 'received', label: t('received'), icon: '📥' },
         { id: 'account', label: t('account'), icon: '👤' },
-        { id: 'about', label: t('about'), icon: 'ℹ️' },
         { id: 'privacy', label: t('privacy'), icon: '🔒' }
     ];
 
@@ -70,16 +68,9 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard-container">
-            {/* Sidebar */}
             <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">
-                    <h2>واجب</h2>
-                    <button 
-                        className="close-btn"
-                        onClick={() => setSidebarOpen(false)}
-                    >
-                        ✕
-                    </button>
+                    <img src='icon.svg'/>
                 </div>
                 
                 <nav className="sidebar-nav">

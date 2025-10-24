@@ -1,71 +1,84 @@
-
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useAuth } from '../context/authContext';
 import { apiService } from '../src/services/apiService';
 import './uploadFiles.scss';
+import { useLanguage } from '../context/languageContext';
+
 
 const UploadFiles = () => {
+    const {t} = useLanguage();
     const { token } = useAuth();
     const [file, setFile] = useState(null);
     const [senderName, setSenderName] = useState('');
+    const [recipientUserName, setRecipientUserName] = useState(''); // CHANGED
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState('');
-    const [isPublic, setIsPublic] = useState(false);
-    const [uploading, setUploading] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [uploading, setUploading] = useState(false);
+
+    const fileInputRef = useRef(null);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
-        if (selectedFile) {
-            // Check file size (10MB limit)
-            if (selectedFile.size > 10 * 1024 * 1024) {
-                setError('File size must be less than 10MB');
-                return;
-            }
-            setFile(selectedFile);
-            setError('');
+        if (!selectedFile) return;
+
+        if (selectedFile.size > 10 * 1024 * 1024) {
+            setError('File size must be less than 10MB');
+            setFile(null);
+            return;
         }
+
+        setFile(selectedFile);
+        setError('');
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!file) {
             setError('Please select a file');
             return;
         }
-        
+
         if (!senderName.trim()) {
-            setError('Please enter sender name');
+            setError('Sender name is required');
             return;
         }
 
-        setUploading(true);
-        setError('');
-        setMessage('');
+        if (!recipientUserName.trim()) { // CHANGED
+            setError('Recipient username is required');
+            return;
+        }
 
         try {
+            setUploading(true);
+            setError('');
+            setMessage('');
+
             const formData = new FormData();
             formData.append('file', file);
             formData.append('senderName', senderName);
+            formData.append('recipientUserName', recipientUserName); // CHANGED
             formData.append('description', description);
             formData.append('tags', tags);
-            formData.append('isPublic', isPublic.toString());
 
-            const data = await apiService.uploadFile(formData);
+            await apiService.uploadFile(formData, token);
 
-            setMessage('File uploaded successfully!');
-            // Reset form
+            setMessage('✅ File uploaded successfully!');
+
             setFile(null);
             setSenderName('');
+            setRecipientUserName(''); // CHANGED
             setDescription('');
             setTags('');
-            setIsPublic(false);
-            document.getElementById('fileInput').value = '';
+
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+
         } catch (err) {
-            setError(err.message || 'Network error. Please try again.');
-            console.error('Upload error:', err);
+            setError(err.message || 'Upload failed');
         } finally {
             setUploading(false);
         }
@@ -73,88 +86,82 @@ const UploadFiles = () => {
 
     return (
         <div className="upload-container">
+            <h2 className='warning'>{t('warning')}</h2>
             <div className="upload-card">
-                <h2>Upload File</h2>
-                
+                <h2>{t('uploadFile')}</h2>
+
                 <form onSubmit={handleSubmit} className="upload-form">
                     <div className="form-group">
-                        <label htmlFor="fileInput">Select File:</label>
+                        <label htmlFor="fileInput">{t('selectFile')}: <span className='max'>max 10MB</span></label>
                         <input
                             type="file"
                             id="fileInput"
+                            ref={fileInputRef}
                             onChange={handleFileChange}
                             className="file-input"
                             required
                         />
                         {file && (
                             <div className="file-info">
-                                <p><strong>Selected:</strong> {file.name}</p>
-                                <p><strong>Size:</strong> {(file.size / 1024 / 1024).toFixed(2)} MB</p>
-                                <p><strong>Type:</strong> {file.type}</p>
+                                <p><strong>{file.name}</strong></p>
+                                <p>{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                                <p>{file.type}</p>
                             </div>
                         )}
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="senderName">Sender Name:</label>
+                        <label htmlFor="senderName">{t('senderName')}</label>
                         <input
                             type="text"
                             id="senderName"
                             value={senderName}
                             onChange={(e) => setSenderName(e.target.value)}
-                            placeholder="Enter sender name"
+                            placeholder={t('senderName')}
                             className="text-input"
                             required
                         />
                     </div>
 
+                    {/* CHANGED: Recipient Username field */}
                     <div className="form-group">
-                        <label htmlFor="description">Description (Optional):</label>
+                        <label htmlFor="recipientUserName">{t('recipient') || 'Recipient Username'}:</label>
+                        <input
+                            type="text"
+                            id="recipientUserName"
+                            value={recipientUserName}
+                            onChange={(e) => setRecipientUserName(e.target.value)}
+                            placeholder={t('recipient') || 'Enter recipient username'}
+                            className="text-input"
+                            required
+                        />
+                        <small className="field-hint">
+                            {t('recipient') || 'Enter the username of the person who will receive this file'}
+                        </small>
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="description">{t('description')}</label>
                         <textarea
                             id="description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Enter file description"
+                            placeholder={t('description')}
                             className="textarea-input"
                             rows="3"
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="tags">Tags (Optional):</label>
-                        <input
-                            type="text"
-                            id="tags"
-                            value={tags}
-                            onChange={(e) => setTags(e.target.value)}
-                            placeholder="Enter tags separated by commas"
-                            className="text-input"
-                        />
-                        <small>Example: document, important, work</small>
-                    </div>
-
-                    <div className="form-group checkbox-group">
-                        <label className="checkbox-label">
-                            <input
-                                type="checkbox"
-                                checked={isPublic}
-                                onChange={(e) => setIsPublic(e.target.checked)}
-                                className="checkbox-input"
-                            />
-                            <span className="checkbox-text">Make this file public</span>
-                        </label>
-                        <small>Public files can be viewed by anyone</small>
-                    </div>
-
+            
                     {error && <div className="error-message">{error}</div>}
                     {message && <div className="success-message">{message}</div>}
 
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         className="upload-btn"
                         disabled={uploading}
                     >
-                        {uploading ? 'Uploading...' : 'Upload File'}
+                        {uploading ? t('uploading') : t('upload')}
                     </button>
                 </form>
             </div>
