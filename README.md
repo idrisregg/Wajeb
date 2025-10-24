@@ -1,6 +1,6 @@
 # Wajeb Homework App
 
-A modern, multilingual file management platform with dark/light theme support and comprehensive user authentication.
+A modern, multilingual Home Work management platform with dark/light theme support and comprehensive user authentication.
 
 ## Features
 
