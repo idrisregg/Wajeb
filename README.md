@@ -56,7 +56,7 @@ A modern, multilingual file management platform with dark/light theme support an
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
+git clone 
 cd wajeb-app
 ```
 
