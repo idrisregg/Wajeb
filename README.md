@@ -5,6 +5,8 @@
 <img width="1911" height="899" alt="5" src="https://github.com/user-attachments/assets/d52aebb6-d15e-4147-bdf8-4617e6a911d5" />
 <img width="1896" height="898" alt="4" src="https://github.com/user-attachments/assets/eabdaebb-1b43-4e2e-9974-eb9f6ab04fdc" />
 <img width="1919" height="903" alt="2" src="https://github.com/user-attachments/assets/a62dd042-8832-4b48-8951-466ffb29bff6" />
+
+
 # Wajeb Homework App
 
 A modern, multilingual file management platform with dark/light theme support and comprehensive user authentication.
