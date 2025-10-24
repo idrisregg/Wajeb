@@ -14,9 +14,9 @@ A modern, multilingual Home Work management platform with dark/light theme suppo
 - Upload files with sender information
 - View files in table format
 - Download and delete files
-- Public/private file settings
 - File metadata (description, tags, etc.)
 - Automatic file deletion after 7 days
+- file Size restriction
 
 ### Multi-Language Support
 - **Arabic** (default) - العربية
