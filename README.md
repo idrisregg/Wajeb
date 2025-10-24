@@ -22,7 +22,6 @@ A modern, multilingual Home Work management platform with dark/light theme suppo
 - **Arabic** (default) - العربية
 - **English** - English  
 - **French** - Français
-- RTL/LTR text direction support
 - Language persistence in localStorage
 
 ### Theme System
