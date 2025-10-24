@@ -1,3 +1,10 @@
+
+<img width="1906" height="909" alt="1" src="https://github.com/user-attachments/assets/3c6dd4cb-86eb-4844-a854-3f42c7c57023" />
+<img width="1919" height="903" alt="2" src="https://github.com/user-attachments/assets/97a69d78-3722-4845-aab1-ab2f841b3503" />
+<img width="1906" height="909" alt="3" src="https://github.com/user-attachments/assets/336d85bd-d8fb-4b96-b5ce-2ba1b4315e0b" />
+<img width="1896" height="898" alt="4" src="https://github.com/user-attachments/assets/eac66964-0822-4244-83a0-8a3cae3c1e0a" />
+<img width="1911" height="899" alt="5" src="https://github.com/user-attachments/assets/6fd7dfb8-0070-4198-b3a0-655b0b804ff5" />
+
 # Wajeb Homework App
 
 A modern, multilingual Home Work management platform with dark/light theme support and comprehensive user authentication.
