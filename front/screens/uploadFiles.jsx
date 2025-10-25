@@ -135,9 +135,6 @@ const UploadFiles = () => {
                             className="text-input"
                             required
                         />
-                        <small className="field-hint">
-                            {t('recipient') || 'Enter the username of the person who will receive this file'}
-                        </small>
                     </div>
 
                     <div className="form-group">
