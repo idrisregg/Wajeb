@@ -102,15 +102,6 @@ const PrivacyPolicy = () => {
                             <p><strong>{t('privacy_email_label')}</strong> idrisregg@gmail.com</p>
                         </div>
                     </section>
-
-                    {/* Last Updated */}
-                    <div className="last-updated">
-                        <p>
-                            <strong>{t('privacy_last_updated')}</strong>
-                            {' ' + new Date().toLocaleDateString()}
-                        </p>
-                    </div>
-
                 </div>
             </div>
         </div>

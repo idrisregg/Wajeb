@@ -131,37 +131,7 @@ const AccountScreen = () => {
                     </div>
                 </div>
 
-                <div className="account-section">
-                    <div className="section-header">
-                        <h2>{t('accountStats')}</h2>
-                    </div>
-
-                    <div className="stats-grid">
-                        <div className="stat-card">
-                            <div className="stat-icon">📁</div>
-                            <div className="stat-info">
-                                <h3>{t('uploadedFiles')}</h3>
-                                <p>0 {t('file')}</p>
-                            </div>
-                        </div>
-
-                        <div className="stat-card">
-                            <div className="stat-icon">📥</div>
-                            <div className="stat-info">
-                                <h3>{t('receivedFiles')}</h3>
-                                <p>0 {t('file')}</p>
-                            </div>
-                        </div>
-
-                        <div className="stat-card">
-                            <div className="stat-icon">⬇️</div>
-                            <div className="stat-info">
-                                <h3>{t('totalDownloads')} </h3>
-                                <p>0 {t('download')}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
 
                 {error && <div className="error-message">{error}</div>}
                 {message && <div className="success-message">{message}</div>}
