@@ -11,7 +11,7 @@ const LanguageContext = createContext({
 const translations = {
     ar: {
         // Navigation
-        dashboard: 'لوحة التحكم',
+        dashboard: 'الرئيسية ',
         upload: 'رفع الواجب',
         received: 'الملفات المستلمة',
         account: 'الحساب',
@@ -84,7 +84,7 @@ const translations = {
         signupNow: 'سجل الآن',
         youHaveAccount: 'هل لديك حساب؟',
         loginNow: 'سجل الدخول',
-        warning:'يمكنك تحميل ملف واحد كل ثلاث ايام و سيتم حذف الملف خلال سبعة ايام من تحميله',
+        warning:'  سيتم حذف الملف خلال سبعة ايام من تحميله',
         welcome: 'مرحباً',
         welcomeMessage: 'مرحباً بك في منصة واجب  ',
         uploadNewFile: 'رفع واجب جديد',
@@ -183,7 +183,7 @@ const translations = {
 
     en: {
         // Navigation
-        dashboard: 'Dashboard',
+        dashboard: 'Main Page',
         upload: 'Upload Home-Work',
         received: 'Received Files',
         account: 'Account',
@@ -256,7 +256,7 @@ const translations = {
         signupNow: 'Sign Up Now',
         youHaveAccount:  'Already have an account?',
         loginNow: 'Login Now',
-        warning:'You can upload only 1 file per 3 days, and all files will be deleted after 7 days of its upload',
+        warning:'All files will be deleted after 7 days of its upload',
         welcome: 'Welcome',
         welcomeMessage: 'Welcome to Wajeb ',
         uploadNewFile: 'Upload New Home Work',
@@ -354,7 +354,7 @@ const translations = {
 
     fr: {
         // Navigation
-        dashboard: 'Tableau de bord',
+        dashboard: 'Page principale',
         upload: 'Télécharger un fichier',
         received: 'Fichiers reçus',
         account: 'Compte',
@@ -427,7 +427,7 @@ const translations = {
         signupNow: 'Inscrivez-vous maintenant',
         youHaveAccount:  'Vous avez déjà un compte ? Connectez-vous',
         loginNow: 'Connectez-vous maintenant',
-        warning:'avertissement : Vous pouvez télécharger un fichier tous les trois jours et le fichier sera supprimé dans les sept jours suivant le téléchargement',
+        warning:'Tous les trois jours et le fichier sera supprimé dans les sept jours suivant le téléchargement',
         welcome: 'Bienvenue',
         welcomeMessage: 'Bienvenue sur  Wajeb',
         uploadNewFile: 'Télécharger un nouveau fichier',

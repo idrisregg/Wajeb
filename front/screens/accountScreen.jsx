@@ -131,7 +131,6 @@ const AccountScreen = () => {
                     </div>
                 </div>
 
-                {/* Statistics */}
                 <div className="account-section">
                     <div className="section-header">
                         <h2>{t('accountStats')}</h2>
