@@ -1,9 +1,19 @@
 
+<<<<<<< HEAD
 <img width="1906" height="909" alt="1" src="https://github.com/user-attachments/assets/3c6dd4cb-86eb-4844-a854-3f42c7c57023" />
 <img width="1919" height="903" alt="2" src="https://github.com/user-attachments/assets/97a69d78-3722-4845-aab1-ab2f841b3503" />
 <img width="1906" height="909" alt="3" src="https://github.com/user-attachments/assets/336d85bd-d8fb-4b96-b5ce-2ba1b4315e0b" />
 <img width="1896" height="898" alt="4" src="https://github.com/user-attachments/assets/eac66964-0822-4244-83a0-8a3cae3c1e0a" />
 <img width="1911" height="899" alt="5" src="https://github.com/user-attachments/assets/6fd7dfb8-0070-4198-b3a0-655b0b804ff5" />
+=======
+
+<img width="1906" height="909" alt="3" src="https://github.com/user-attachments/assets/87db18c1-3a24-40e8-a19a-8e62f7da8768" />
+<img width="1906" height="909" alt="1" src="https://github.com/user-attachments/assets/3925960a-88a3-4bf4-817b-1d034bc8d0cb" />
+<img width="1911" height="899" alt="5" src="https://github.com/user-attachments/assets/d52aebb6-d15e-4147-bdf8-4617e6a911d5" />
+<img width="1896" height="898" alt="4" src="https://github.com/user-attachments/assets/eabdaebb-1b43-4e2e-9974-eb9f6ab04fdc" />
+<img width="1919" height="903" alt="2" src="https://github.com/user-attachments/assets/a62dd042-8832-4b48-8951-466ffb29bff6" />
+
+>>>>>>> 3184e706b90fcadf6d02d7f49ef0f95ec06899f4
 
 # Wajeb Homework App
 
@@ -53,7 +63,7 @@ A modern, multilingual Home Work management platform with dark/light theme suppo
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
+git clone 
 cd wajeb-app
 ```
 
