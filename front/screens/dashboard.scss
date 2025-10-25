@@ -4,13 +4,12 @@
   height: 100vh;
   background: var(--bg-primary);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
 }
 
-// Sidebar
 .sidebar {
-  width: 300px;
-  background: rgb(125, 106, 148);
+  border: 2px dashed var(--text-primary);
+  width: 30%;
+  background: var(--bg-primary);
   color: white;
   display: flex;
   flex-direction: column;
@@ -58,7 +57,10 @@
 .nav-item {
   width: 100%;
   background: none;
-  border: none;
+  border-bottom: 2px dashed var(--text-primary);
+  border-top: 2px dashed var(--text-primary);
+  border-right: none;
+  border-left: none;
   color: white;
   padding: 1rem 1.5rem;
   text-align: right;
@@ -70,7 +72,10 @@
   font-size: 1rem;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background:var(--text-primary);
+    .nav-label {
+      color: var(--bg-secondary);
+    }
   }
 
   &.active {
@@ -90,7 +95,7 @@
   color: var(--text-primary);
 }
 
-// Logout Button
+
 .logout-btn {
   width: 100%;
   background: rgba(220, 53, 69, 0.8);
@@ -106,15 +111,15 @@
   font-size: 1rem;
 
   &:hover {
-    background: rgba(220, 53, 69, 1);
+    background: rgb(158, 69, 78);
   }
-}
+ }
 
 // Main Content
 .main-content {
   align-items: center;
   justify-content: center;
-  width: 1450px;
+  width: 70%;
   display: flex;
   flex-direction: column;
   margin-left: 0;

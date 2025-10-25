@@ -2,8 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from '../context/authContext';
 import './signup.scss';
+import { useLanguage } from "../context/languageContext";
 
 const Signup = () => {
+    const{t}=useLanguage();
     const navigate = useNavigate();
     const { register, loading } = useAuth();
 
@@ -48,25 +50,25 @@ const Signup = () => {
         <div className="signup-container">
             <img className='logo' src='/icon.svg' />
             <div className="signup-box">
-                <h2 className="signup-title">أنشئ حسابك</h2>
+                <h2 className="signup-title">{t('createAccount')} </h2>
                 <form className="signup-form" onSubmit={handleSubmit}>
                     <input 
                         type="text" 
-                        placeholder="اسم المستخدم" 
+                        placeholder={t('userName')} 
                         required 
                         value={userName} 
                         onChange={(e) => setUserName(e.target.value)}
                     />
                     <input 
                         type="email" 
-                        placeholder="البريد الإلكتروني" 
+                        placeholder={t('email')}
                         required 
                         value={email} 
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <input 
                         type="password" 
-                        placeholder="كلمة المرور" 
+                        placeholder={t('password')}
                         required 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)}
@@ -78,11 +80,11 @@ const Signup = () => {
                         className="signup-btn" 
                         disabled={loading}
                     >
-                        {loading ? 'جاري إنشاء الحساب...' : 'سجل الآن'}
+                        {loading ? '...' : t('signupNow')}
                     </button>
                 </form>
                 <p className="signin-link">
-                    عندك حساب؟ <a href="/">سجل الدخول</a>
+                     {t('youHaveAccount')} <a href="/">{t('loginNow')} </a>
                 </p>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import './login.scss';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../context/authContext';
 import { useLanguage } from '../context/languageContext';
 
@@ -8,7 +8,7 @@ const Login = () => {
     const navigate = useNavigate();
     const { login, loading } = useAuth();
     const { t } = useLanguage();
-    
+
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -23,7 +23,7 @@ const Login = () => {
         }
 
         const result = await login(email, password);
-        
+
         if (result.success) {
             navigate('/dashboard');
         } else {
@@ -33,7 +33,7 @@ const Login = () => {
 
     return (
         <>
-        <img className="logo" src="/icon.svg"/>
+            <img className="logo" src="/icon.svg" />
             <div className="container">
                 <div className="forms-container">
                     <div className="form-control signup-form">
@@ -41,19 +41,19 @@ const Login = () => {
                     <div className="form-control signin-form">
                         <form onSubmit={handleSubmit}>
                             <h2>{t('login')}</h2>
-                            <input 
-                                type="email" 
-                                placeholder={t('email')} 
+                            <input
+                                type="email"
+                                placeholder={t('email')}
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                required 
+                                required
                             />
-                            <input 
-                                type="password" 
-                                placeholder={t('password')} 
+                            <input
+                                type="password"
+                                placeholder={t('password')}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                required 
+                                required
                             />
                             {errorMessage && (
                                 <div className="error-message">{errorMessage}</div>

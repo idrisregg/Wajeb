@@ -34,10 +34,10 @@ const translations = {
         haveAccount: 'عندك حساب؟ سجل الدخول',
 
         // File Upload
-        recipient:'اسم المستلم',
+        recipient:'اسم المعلم',
         uploadFile: 'رفع واجبك',
         selectFile: 'اختر ملف',
-        senderName: 'اسم المرسل',
+        senderName: 'اسم التلميذ',
         description: 'الوصف (اختياري)',
         tags: 'العلامات (اختياري)',
         makePublic: 'جعل الملف عام',
@@ -78,6 +78,12 @@ const translations = {
         totalDownloads: 'إجمالي التحميلات',
 
         // Messages
+        createAccount:'أنشئ حسابك',
+        userName:'اسم المستخدم',
+        password:'كلمة المرور',
+        signupNow: 'سجل الآن',
+        youHaveAccount: 'هل لديك حساب؟',
+        loginNow: 'سجل الدخول',
         warning:'يمكنك تحميل ملف واحد كل ثلاث ايام و سيتم حذف الملف خلال سبعة ايام من تحميله',
         welcome: 'مرحباً',
         welcomeMessage: 'مرحباً بك في منصة واجب  ',
@@ -200,10 +206,10 @@ const translations = {
         haveAccount: 'Have an account? Login',
 
         // File Upload
-        recipient:'Recipient Name',
+        recipient:"Teacher's Name",
         uploadFile: 'Upload Home Work',
         selectFile: 'Select File',
-        senderName: 'Sender Name',
+        senderName: "Student's Name",
         description: 'Description (Optional)',
         tags: 'Tags (Optional)',
         makePublic: 'Make this file public',
@@ -244,6 +250,12 @@ const translations = {
         totalDownloads: 'Total Downloads',
 
         // Messages
+        createAccount:'Create Account',
+        userName:'Username',
+        password:'Password',
+        signupNow: 'Sign Up Now',
+        youHaveAccount:  'Already have an account?',
+        loginNow: 'Login Now',
         warning:'You can upload only 1 file per 3 days, and all files will be deleted after 7 days of its upload',
         welcome: 'Welcome',
         welcomeMessage: 'Welcome to Wajeb ',
@@ -365,10 +377,10 @@ const translations = {
         haveAccount: 'Vous avez un compte ? Connectez-vous',
 
         // File Upload
-        recipient:'Destinataire',
+        recipient:'Professeur(e)',
         uploadFile: 'Télécharger un fichier',
         selectFile: 'Sélectionner un fichier',
-        senderName: 'Nom de l\'expéditeur',
+        senderName: "Nom de l'élève",
         description: 'Description (optionnel)',
         tags: 'Étiquettes (optionnel)',
         makePublic: 'Rendre ce fichier public',
@@ -409,6 +421,12 @@ const translations = {
         totalDownloads: 'Total des téléchargements',
 
         // Messages
+        createAccount:'Créer un compte',
+        userName:'Nom de utilisateur',
+        password:'Mot de passe',
+        signupNow: 'Inscrivez-vous maintenant',
+        youHaveAccount:  'Vous avez déjà un compte ? Connectez-vous',
+        loginNow: 'Connectez-vous maintenant',
         warning:'avertissement : Vous pouvez télécharger un fichier tous les trois jours et le fichier sera supprimé dans les sept jours suivant le téléchargement',
         welcome: 'Bienvenue',
         welcomeMessage: 'Bienvenue sur  Wajeb',

@@ -1,6 +1,6 @@
 import './App.css';
 import '../src/styles/themes.scss';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, replace } from 'react-router-dom';
 import { AuthProvider } from '../context/authContext';
 import { ThemeProvider } from '../context/themeContext';
 import { LanguageProvider } from '../context/languageContext';
@@ -11,8 +11,9 @@ import UploadFiles from '../screens/uploadFiles.jsx';
 import ViewReceivedFiles from '../screens/viewReceivedFiles.jsx';
 import NotFound from '../screens/notfound.jsx';
 import ProtectedRoute from '../comps/protectedRoutes.jsx';
-import ThemeToggle from '../comps/themeToggle';
 import LanguageToggle from '../comps/languageToggle';
+
+
 
 function App() {
     return (
@@ -23,13 +24,13 @@ function App() {
                         <div className='app'>
                             <LanguageToggle className="floating" />
                             <Routes>
-                                <Route path="/" element={<Login />} />
+                                <Route path="/" element={<Login/>} />
                                 <Route path="/signup" element={<Signup />} />
                                 <Route path="/dashboard" element={
                                     <ProtectedRoute>
                                         <Dashboard />
-                                    </ProtectedRoute>
-                                } />
+                                    </ProtectedRoute>}
+                                />
                                 <Route path="/upload" element={
                                     <ProtectedRoute>
                                         <UploadFiles />
