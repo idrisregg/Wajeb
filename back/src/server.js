@@ -5,7 +5,7 @@ const cors = require('@fastify/cors');
 const userRoutes = require('./routes/user.routes');
 const fileRoutes = require('./routes/file.routes');
 const fastifyMultipart = require('@fastify/multipart');
-
+const FileCleanupService = require('./services/fileCleanupService');
 const jwt = require("./plugins/jwt");
 
 const fastify = Fastify({
@@ -18,41 +18,74 @@ fastify.register(cors, {
     credentials: true,
 });
 
-mongoose.connect(process.env.MONGO_DB, {
-    dbName: 'Wajeb'
-}).then(() => {
-    console.log('Connected to DB')
-}).catch((error) => {
-    console.log('Error connecting to MongoDB', error)
-})
+let cleanupService = null;
 
 const start = async () => {
     try {
+        await mongoose.connect(process.env.MONGO_DB, {
+            dbName: 'Wajeb'
+        });
+        console.log('Connected to DB');
 
-         await fastify.register(fastifyMultipart, {
+        await fastify.register(fastifyMultipart, {
             limits: {
-                fileSize: 10 * 1024 * 1024, // 10MB
-                files:1
+                fileSize: 10 * 1024 * 1024,
+                files: 1
             }
         });
-        // Register JWT plugin first and wait for it
+        
         await fastify.register(jwt);
-
-        // Then register routes that depend on JWT
         await fastify.register(userRoutes, { prefix: 'api/users' });
-
-
         await fastify.register(fileRoutes, { prefix: 'api/files' });
 
-        // Start the server
-        const port = process.env.PORT;
+        fastify.get('/api/admin/cleanup-stats', {
+            onRequest: [fastify.jwtAuth]
+        }, async (req, reply) => {
+            try {
+                if (!cleanupService) {
+                    return reply.status(503).send({ error: 'Cleanup service not initialized' });
+                }
+                const stats = await cleanupService.getCleanupStats();
+                reply.send(stats);
+            } catch (error) {
+                reply.status(500).send({ error: 'Failed to get cleanup stats' });
+            }
+        });
+
+        fastify.post('/api/admin/force-cleanup', {
+            onRequest: [fastify.jwtAuth]
+        }, async (req, reply) => {
+            try {
+                if (!cleanupService) {
+                    return reply.status(503).send({ error: 'Cleanup service not initialized' });
+                }
+                await cleanupService.forceCleanup();
+                reply.send({ message: 'Cleanup initiated successfully' });
+            } catch (error) {
+                reply.status(500).send({ error: 'Failed to initiate cleanup' });
+            }
+        });
+
+        const port = process.env.PORT || 3000;
         const host = '0.0.0.0';
-        await fastify.listen({ port, host })
-        fastify.log.info(`Server running on ${fastify.server.address().port}`)
+        await fastify.listen({ port, host });
+        fastify.log.info(`Server running on ${fastify.server.address().port}`);
+        
+        cleanupService = new FileCleanupService();
+        console.log('File cleanup service initialized');
+        
     } catch (error) {
-        fastify.log.error(error)
-        process.exit(1)
+        fastify.log.error(error);
+        process.exit(1);
     }
-}
+};
+
+process.on('SIGINT', async () => {
+    console.log('\nGracefully shutting down...');
+    await fastify.close();
+    await mongoose.connection.close();
+    console.log('Server and database connections closed');
+    process.exit(0);
+});
 
 start();

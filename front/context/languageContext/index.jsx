@@ -78,6 +78,7 @@ const translations = {
         totalDownloads: 'إجمالي التحميلات',
 
         // Messages
+        deleteMessage:'هل أنت متأكد من حذف الحساب؟ لا يمكن التراجع عن هذا الإجراء.',
         createAccount:'أنشئ حسابك',
         userName:'اسم المستخدم',
         password:'كلمة المرور',
@@ -250,6 +251,7 @@ const translations = {
         totalDownloads: 'Total Downloads',
 
         // Messages
+        deleteMessage:'Are you sure you want to delete Account?',
         createAccount:'Create Account',
         userName:'Username',
         password:'Password',
@@ -421,6 +423,7 @@ const translations = {
         totalDownloads: 'Total des téléchargements',
 
         // Messages
+        deleteMessage:"Êtes-vous sûr de vouloir supprimer ce Compte ?",
         createAccount:'Créer un compte',
         userName:'Nom de utilisateur',
         password:'Mot de passe',

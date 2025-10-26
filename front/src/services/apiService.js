@@ -35,7 +35,6 @@ class ApiService {
     }
   }
 
-  // User API methods
   async login(email, password) {
     return this.request('/api/users/login', {
       method: 'POST',
@@ -67,13 +66,9 @@ class ApiService {
     });
   }
 
-  // File API methods
-  async uploadFile(formData, recipientId) {
+  async uploadFile(formData) {
     const token = localStorage.getItem('Access_Token');
     const url = `${this.baseURL}/api/files/upload`;
-    
-    // Add recipient to form data
-    formData.append('recipientId', recipientId);
     
     try {
       const response = await fetch(url, {
@@ -86,7 +81,7 @@ class ApiService {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Upload failed');
+        throw new Error(error.error || error.message || 'Upload failed');
       }
 
       return response.json();
@@ -123,16 +118,13 @@ class ApiService {
         throw new Error(`Download failed: ${response.statusText}`);
       }
 
-      // Get filename from headers
       const contentDisposition = response.headers.get('content-disposition');
       const filename = contentDisposition
         ? contentDisposition.split('filename=')[1].replace(/"/g, '')
         : 'download';
 
-      // Convert response to blob
       const blob = await response.blob();
       
-      // Create download link
       const downloadUrl = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = downloadUrl;
@@ -156,41 +148,38 @@ class ApiService {
     });
   }
 
- async deleteFile(fileId) {
-  const token = localStorage.getItem('Access_Token');
-  const url = `${this.baseURL}/api/files/${fileId}`;
-  
-  try {
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`
-        // Remove Content-Type for DELETE requests without body
+  async deleteFile(fileId) {
+    const token = localStorage.getItem('Access_Token');
+    const url = `${this.baseURL}/api/files/${fileId}`;
+    
+    try {
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
       }
-    });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error('Delete file error:', error);
+      throw error;
     }
-
-    return await response.json();
-  } catch (error) {
-    console.error('Delete file error:', error);
-    throw error;
   }
-}
-  // Health check
+
   async healthCheck() {
     return this.request('/health');
   }
 
-  // Get API info
   async getApiInfo() {
     return this.request('/api');
   }
 }
 
-// Create and export singleton instance
 export const apiService = new ApiService();
 export default apiService;

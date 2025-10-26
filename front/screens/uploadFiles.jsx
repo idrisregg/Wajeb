@@ -4,13 +4,12 @@ import { apiService } from '../src/services/apiService';
 import './uploadFiles.scss';
 import { useLanguage } from '../context/languageContext';
 
-
 const UploadFiles = () => {
     const {t} = useLanguage();
     const { token } = useAuth();
     const [file, setFile] = useState(null);
     const [senderName, setSenderName] = useState('');
-    const [recipientUserName, setRecipientUserName] = useState(''); // CHANGED
+    const [recipientUserName, setRecipientUserName] = useState('');
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState('');
     const [message, setMessage] = useState('');
@@ -46,7 +45,7 @@ const UploadFiles = () => {
             return;
         }
 
-        if (!recipientUserName.trim()) { // CHANGED
+        if (!recipientUserName.trim()) {
             setError('Recipient username is required');
             return;
         }
@@ -58,18 +57,18 @@ const UploadFiles = () => {
 
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('senderName', senderName);
-            formData.append('recipientUserName', recipientUserName); // CHANGED
-            formData.append('description', description);
-            formData.append('tags', tags);
+            formData.append('senderName', senderName.trim());
+            formData.append('recipientUserName', recipientUserName.trim());
+            formData.append('description', description.trim());
+            formData.append('tags', tags.trim());
 
-            await apiService.uploadFile(formData, token);
+            const response = await apiService.uploadFile(formData);
 
             setMessage('✅ File uploaded successfully!');
 
             setFile(null);
             setSenderName('');
-            setRecipientUserName(''); // CHANGED
+            setRecipientUserName('');
             setDescription('');
             setTags('');
 
@@ -123,7 +122,6 @@ const UploadFiles = () => {
                         />
                     </div>
 
-                    {/* CHANGED: Recipient Username field */}
                     <div className="form-group">
                         <label htmlFor="recipientUserName">{t('recipient') || 'Recipient Username'}</label>
                         <input
@@ -149,7 +147,6 @@ const UploadFiles = () => {
                         />
                     </div>
 
-            
                     {error && <div className="error-message">{error}</div>}
                     {message && <div className="success-message">{message}</div>}
 

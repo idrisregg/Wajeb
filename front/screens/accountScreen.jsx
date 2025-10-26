@@ -40,7 +40,7 @@ const AccountScreen = () => {
     };
 
     const handleDeleteAccount = async () => {
-        if (!window.confirm('هل أنت متأكد من حذف الحساب؟ لا يمكن التراجع عن هذا الإجراء.')) {
+        if (!window.confirm(t('deleteMessage'))) {
             return;
         }
 

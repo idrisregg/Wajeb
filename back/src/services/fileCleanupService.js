@@ -1,28 +1,27 @@
 const File = require('../models/file.model');
-const fs = require('fs');
-const path = require('path');
+const s3Service = require('./s3Service');
 
 class FileCleanupService {
     constructor() {
-        this.cleanupInterval = 24 * 60 * 60 * 1000; // 24 hours
+        this.cleanupInterval = 24 * 60 * 60 * 1000;
         this.startCleanup();
     }
 
     startCleanup() {
-        // Run cleanup immediately
         this.cleanupExpiredFiles();
         
-        // Schedule regular cleanup
         setInterval(() => {
             this.cleanupExpiredFiles();
         }, this.cleanupInterval);
+
+        console.log('File cleanup service started');
     }
 
     async cleanupExpiredFiles() {
         try {
-            console.log('Starting file cleanup...');
+            console.log('Starting file cleanup process');
+            const startTime = Date.now();
             
-            // Find files that should be deleted (expired or older than 7 days)
             const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
             
             const expiredFiles = await File.find({
@@ -32,55 +31,72 @@ class FileCleanupService {
                 ]
             });
 
-            console.log(`Found ${expiredFiles.length} files to clean up`);
+            console.log(`Found ${expiredFiles.length} expired files to clean up`);
+
+            let successCount = 0;
+            let failCount = 0;
 
             for (const file of expiredFiles) {
                 try {
-                    // Delete physical file
-                    if (fs.existsSync(file.filePath)) {
-                        fs.unlinkSync(file.filePath);
-                        console.log(`Deleted file: ${file.fileName}`);
-                    }
+                    await s3Service.deleteFile(file.filePath);
+                    console.log(`Deleted from S3: ${file.fileName}`);
 
-                    // Delete database record
                     await File.findByIdAndDelete(file._id);
-                    console.log(`Deleted database record for: ${file.fileName}`);
+                    console.log(`Deleted from DB: ${file.fileName}`);
+                    
+                    successCount++;
                 } catch (error) {
-                    console.error(`Error cleaning up file ${file.fileName}:`, error);
+                    console.error(`Error cleaning up file ${file.fileName}:`, error.message);
+                    failCount++;
                 }
             }
 
-            console.log(`File cleanup completed. Cleaned ${expiredFiles.length} files.`);
+            const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+            console.log(`File cleanup completed in ${duration}s`);
+            console.log(`Summary: ${successCount} successful, ${failCount} failed`);
+            
         } catch (error) {
-            console.error('Error during file cleanup:', error);
+            console.error('Critical error during file cleanup:', error);
         }
     }
 
-    // Manual cleanup method for testing
     async forceCleanup() {
-        console.log('Force cleanup initiated...');
+        console.log('Force cleanup initiated');
         await this.cleanupExpiredFiles();
     }
 
-    // Get cleanup statistics
     async getCleanupStats() {
         try {
+            const now = new Date();
             const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
             
             const totalFiles = await File.countDocuments();
+            
             const expiredFiles = await File.countDocuments({
                 $or: [
-                    { expiresAt: { $lte: new Date() } },
+                    { expiresAt: { $lte: now } },
                     { createdAt: { $lte: sevenDaysAgo } }
                 ]
             });
+            
             const activeFiles = totalFiles - expiredFiles;
+
+            const allFiles = await File.find({});
+            const totalStorage = allFiles.reduce((sum, file) => sum + file.fileSize, 0);
+            const expiredStorage = allFiles
+                .filter(f => f.expiresAt <= now || f.createdAt <= sevenDaysAgo)
+                .reduce((sum, file) => sum + file.fileSize, 0);
 
             return {
                 totalFiles,
                 expiredFiles,
                 activeFiles,
-                nextCleanup: new Date(Date.now() + this.cleanupInterval)
+                totalStorageBytes: totalStorage,
+                expiredStorageBytes: expiredStorage,
+                totalStorageMB: (totalStorage / (1024 * 1024)).toFixed(2),
+                expiredStorageMB: (expiredStorage / (1024 * 1024)).toFixed(2),
+                nextCleanup: new Date(Date.now() + this.cleanupInterval),
+                cleanupIntervalHours: this.cleanupInterval / (60 * 60 * 1000)
             };
         } catch (error) {
             console.error('Error getting cleanup stats:', error);
@@ -90,4 +106,3 @@ class FileCleanupService {
 }
 
 module.exports = FileCleanupService;
-
