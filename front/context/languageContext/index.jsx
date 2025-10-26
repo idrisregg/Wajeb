@@ -13,7 +13,7 @@ const translations = {
         // Navigation
         dashboard: 'الرئيسية ',
         upload: 'رفع الواجب',
-        received: 'الملفات المستلمة',
+        received: 'الواجبات المستلمة',
         account: 'الحساب',
         about: 'من نحن',
         privacy: 'سياسة الخصوصية',
@@ -62,7 +62,6 @@ const translations = {
         // Account
         file: 'ملف',
         accountManagement: 'إدارة الحساب',
-        email: 'البريد الإلكتروني',
         personalInfo: 'المعلومات الشخصية',
         accountActions: 'إجراءات الحساب',
         accountStats: 'إحصائيات الحساب',
@@ -74,7 +73,7 @@ const translations = {
         deleteAccount: 'حذف الحساب',
         deleting: 'جاري الحذف...',
         uploadedFiles: 'الواجبات المرفوعة',
-        receivedFiles: 'الملفات المستلمة',
+        receivedFiles: 'الواجبات المستلمة',
         totalDownloads: 'إجمالي التحميلات',
 
         // Messages
@@ -89,7 +88,7 @@ const translations = {
         welcome: 'مرحباً',
         welcomeMessage: 'مرحباً بك في منصة واجب  ',
         uploadNewFile: 'رفع واجب جديد',
-        uploadNewFileDesc: 'ارفع واجباتك مع اسم المرسل',
+        uploadNewFileDesc: 'ارفع واجباتك مع اسم المعلم',
         viewReceivedFiles: 'الواجبات المستلمة',
         viewReceivedFilesDesc: 'عرض وإدارة الواجبات المستلمة',
         manageAccount: 'إدارة الحساب',
@@ -118,7 +117,7 @@ const translations = {
 
         privacy_collect_title: "المعلومات التي نجمعها",
         privacy_collect_personal: "المعلومات الشخصية:",
-        privacy_collect_file: "معلومات الملفات:",
+        privacy_collect_file: "معلومات الواجبات:",
         privacy_collect_personal_list: [
             "اسم المستخدم",
             "البريد الإلكتروني",
@@ -186,7 +185,7 @@ const translations = {
         // Navigation
         dashboard: 'Main Page',
         upload: 'Upload Home-Work',
-        received: 'Received Files',
+        received: 'Received Home Works',
         account: 'Account',
         about: 'About Us',
         privacy: 'Privacy Policy',
@@ -246,8 +245,8 @@ const translations = {
         saving: 'Saving...',
         deleteAccount: 'Delete Account',
         deleting: 'Deleting...',
-        uploadedFiles: 'Uploaded Files',
-        receivedFiles: 'Received Files',
+        uploadedFiles: 'Uploaded Home Work',
+        receivedFiles: 'Received Home Work',
         totalDownloads: 'Total Downloads',
 
         // Messages
@@ -262,9 +261,9 @@ const translations = {
         welcome: 'Welcome',
         welcomeMessage: 'Welcome to Wajeb ',
         uploadNewFile: 'Upload New Home Work',
-        uploadNewFileDesc: 'Upload your files with sender name',
-        viewReceivedFiles: 'Received Files',
-        viewReceivedFilesDesc: 'View and manage received files',
+        uploadNewFileDesc: 'Upload your Home Work with Teacher name',
+        viewReceivedFiles: 'Received Home Works',
+        viewReceivedFilesDesc: 'View and manage received Home Works',
         manageAccount: 'Account Management',
         manageAccountDesc: 'Edit your data or delete account',
         fileUploadedSuccess: 'File uploaded successfully!',
@@ -426,7 +425,6 @@ const translations = {
         deleteMessage:"Êtes-vous sûr de vouloir supprimer ce Compte ?",
         createAccount:'Créer un compte',
         userName:'Nom de utilisateur',
-        password:'Mot de passe',
         signupNow: 'Inscrivez-vous maintenant',
         youHaveAccount:  'Vous avez déjà un compte ? Connectez-vous',
         loginNow: 'Connectez-vous maintenant',

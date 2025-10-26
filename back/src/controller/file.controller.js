@@ -9,17 +9,17 @@ async function uploadFile(req, reply) {
     try {
         console.log('Upload started for user:', req.user.userId);
         
-        const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+        const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
         const recentUpload = await File.findOne({
             uploadedBy: req.user.userId,
-            createdAt: { $gte: threeDaysAgo }
+            createdAt: { $gte: oneDayAgo }
         });
 
         if (recentUpload) {
-            const nextAllowedDate = new Date(recentUpload.createdAt.getTime() + 3 * 24 * 60 * 60 * 1000);
+            const nextAllowedDate = new Date(recentUpload.createdAt.getTime() + 24 * 60 * 60 * 1000);
             return reply.status(429).send({ 
                 error: 'Upload limit reached',
-                message: `You can only upload one file every 3 days. Next upload allowed: ${nextAllowedDate.toLocaleString()}`,
+                message: `You can only upload one file per day. Next upload allowed: ${nextAllowedDate.toLocaleString()}`,
                 nextAllowedDate: nextAllowedDate
             });
         }
@@ -31,6 +31,25 @@ async function uploadFile(req, reply) {
         for await (const part of parts) {
             if (part.file) {
                 console.log('Processing file:', part.filename);
+                
+                const allowedMimeTypes = [
+                    'image/jpeg',
+                    'image/jpg',
+                    'image/png',
+                    'image/gif',
+                    'image/webp',
+                    'application/pdf',
+                    'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                ];
+
+                if (!allowedMimeTypes.includes(part.mimetype)) {
+                    return reply.status(400).send({ 
+                        error: 'File type not allowed',
+                        message: 'Only images (JPEG, PNG, GIF, WebP), PDF, and Word documents are allowed'
+                    });
+                }
+
                 const fileExtension = path.extname(part.filename);
                 const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2)}${fileExtension}`;
 

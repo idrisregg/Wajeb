@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useAuth } from '../context/authContext';
 import { useLanguage } from '../context/languageContext';
 import ThemeToggle from '../comps/themeToggle';
@@ -21,6 +21,9 @@ const Dashboard = () => {
         { id: 'account', label: t('account'), icon: '👤' },
         { id: 'privacy', label: t('privacy'), icon: '🔒' }
     ];
+    useEffect(() => {
+        document.title='Dashboard'
+    })
 
     const renderContent = () => {
         switch (activeScreen) {

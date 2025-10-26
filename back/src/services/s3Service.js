@@ -3,10 +3,7 @@ const { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand, HeadO
 class S3Service {
   constructor() {
     console.log('Initializing S3 Client');
-    console.log('AWS Region:', process.env.AWS_REGION);
-    console.log('S3 Bucket:', process.env.AWS_S3_BUCKET);
     
-    // Check if credentials exist
     const hasCredentials = process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY;
     console.log('AWS Credentials:', hasCredentials ? 'Provided' : 'Missing');
 
@@ -14,12 +11,10 @@ class S3Service {
       throw new Error('AWS credentials are required in environment variables');
     }
 
-    // Create S3 client configuration
     const s3Config = {
       region: process.env.AWS_REGION || 'us-east-1',
     };
 
-    // Only add credentials if they are provided
     if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
       s3Config.credentials = {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID.trim(),
@@ -27,7 +22,6 @@ class S3Service {
       };
     }
 
-    // Add additional configuration for better error handling
     s3Config.maxAttempts = 3;
     s3Config.retryMode = 'standard';
 
