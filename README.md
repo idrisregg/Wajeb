@@ -9,6 +9,12 @@
 
 A modern, multilingual Home Work management platform with dark/light theme support and comprehensive user authentication.
 
+## Tech Stack:
+- React - React Router
+- Fastify (back-end)
+- AWS S3 ( Cloud Storage)
+- MongoDB (Database)
+
 ## Features
 
 ### Authentication System
