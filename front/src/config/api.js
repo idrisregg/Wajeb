@@ -1,4 +1,3 @@
-// API Configuration for different environments
 const config = {
   development: {
     API_BASE_URL: 'http://localhost:3004',
@@ -7,38 +6,31 @@ const config = {
     APP_ENV: 'development'
   },
   production: {
-    API_BASE_URL: 'https://your-vps-domain.com', // Replace with your VPS domain
-    APP_NAME: 'Wajeb',
+    API_BASE_URL: 'https://your-vps-domain.com', 
     APP_VERSION: '1.0.0',
     APP_ENV: 'production'
   },
   staging: {
-    API_BASE_URL: 'https://staging.your-domain.com', // Replace with your staging domain
+    API_BASE_URL: 'https://staging.your-domain.com',
     APP_NAME: 'Wajeb',
     APP_VERSION: '1.0.0',
     APP_ENV: 'staging'
   }
 };
 
-// Get current environment
 const getCurrentEnvironment = () => {
-  // Check if we're in development (Vite dev server)
   if (import.meta.env.DEV) {
     return 'development';
   }
   
-  // Check if we're in production build
   if (import.meta.env.PROD) {
     return 'production';
   }
   
-  // Default to development
   return 'development';
 };
 
-// Export current config
 export const currentConfig = config[getCurrentEnvironment()];
 
-// Export all configs for reference
 export default config;
 
