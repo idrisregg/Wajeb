@@ -1,7 +1,7 @@
 {
   "name": "wajeb-app",
   "version": "1.0.0",
-  "description": "Wajeb File Management Application",
+  "description": "Wajeb Home Work Application",
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "cd back && npm run dev",
