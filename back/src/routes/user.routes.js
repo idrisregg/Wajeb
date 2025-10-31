@@ -1,4 +1,4 @@
-import UserController from '../controller/user.controller.js';
+import * as UserController from '../controller/user.controller.js';
 import { basicAuth } from "../middlewares/auth.js";
 import User from "../models/user.model.js";
 

@@ -1,4 +1,4 @@
-import FileController from '../controller/file.controller.js';
+import * as FileController from '../controller/file.controller.js';
 
 async function routes(fastify, options) {
     fastify.post('/upload', { 
