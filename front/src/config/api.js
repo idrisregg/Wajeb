@@ -6,7 +6,7 @@ const config = {
     APP_ENV: 'development'
   },
   production: {
-    API_BASE_URL: '/', 
+    API_BASE_URL: 'https://your-vps-domain.com', 
     APP_VERSION: '1.0.0',
     APP_ENV: 'production'
   },
