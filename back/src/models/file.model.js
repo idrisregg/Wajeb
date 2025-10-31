@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const FileSchema = new mongoose.Schema({
     fileName: {
@@ -28,7 +28,6 @@ const FileSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    // CHANGED: Use userName instead of ObjectId for easier recipient identification
     recipientUserName: {
         type: String,
         required: true,
@@ -67,12 +66,11 @@ const FileSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Index for better query performance
 FileSchema.index({ uploadedBy: 1, createdAt: -1 });
-FileSchema.index({ recipientUserName: 1, createdAt: -1 }); // Index by username
+FileSchema.index({ recipientUserName: 1, createdAt: -1 });
 FileSchema.index({ fileName: 1 });
 FileSchema.index({ tags: 1 });
 
 const File = mongoose.model('File', FileSchema);
 
-module.exports = File;
+export default File;

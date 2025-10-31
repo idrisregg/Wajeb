@@ -1,13 +1,10 @@
-const UserController = require('../controller/user.controller');
-const { basicAuth } = require("../middlewares/auth");
-const User = require("../models/user.model")
+import UserController from '../controller/user.controller.js';
+import { basicAuth } from "../middlewares/auth.js";
+import User from "../models/user.model.js";
 
 async function routes(fastify, options) {
-    // Specific routes first (before parameterized routes)
     fastify.post("/login", async (request, reply) => {
         const { email, password } = request.body;
-        
-        // Validate input
         if (!email || !password) {
             return reply.status(400).send({ 
                 error: "Email and password are required" 
@@ -31,13 +28,12 @@ async function routes(fastify, options) {
                 });
             }
 
-            // Generate JWT token with proper payload structure
             const token = fastify.jwt.sign({
                 userId: user._id,
                 email: user.email,
                 userName: user.userName
             }, {
-                expiresIn: '24h' // Token expires in 24 hours
+                expiresIn: '24h'
             });
             
             reply.send({ 
@@ -56,8 +52,6 @@ async function routes(fastify, options) {
             });
         }
     });
-    
-    // Other specific routes
     fastify.get("/", { onRequest: [fastify.jwtAuth] }, UserController.getAllUsers);
     fastify.get("/me", { onRequest: [fastify.jwtAuth] }, async (request, reply) => {
         try {
@@ -85,11 +79,10 @@ async function routes(fastify, options) {
         }
     });
     
-    // Parameterized routes last
     fastify.get('/:id', UserController.getUserById);
     fastify.post('/', UserController.createUser);
     fastify.put('/:id', UserController.updateUser);
     fastify.delete('/:id',UserController.deleteUser);
 }
 
-module.exports = routes;
+export default routes;

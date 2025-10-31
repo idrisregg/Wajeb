@@ -1,4 +1,10 @@
-const { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand, HeadObjectCommand } = require('@aws-sdk/client-s3');
+import { 
+  S3Client, 
+  PutObjectCommand, 
+  DeleteObjectCommand, 
+  GetObjectCommand, 
+  HeadObjectCommand 
+} from '@aws-sdk/client-s3';
 
 class S3Service {
   constructor() {
@@ -105,4 +111,5 @@ class S3Service {
   }
 }
 
-module.exports = new S3Service();
+const s3Service = new S3Service();
+export default s3Service;

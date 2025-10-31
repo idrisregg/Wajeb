@@ -1,7 +1,7 @@
-const File = require('../models/file.model');
-const User = require('../models/user.model');
-const path = require('path');
-const s3Service = require('../services/s3Service');
+import File from '../models/file.model.js';
+import User from '../models/user.model.js';
+import path from 'path';
+import s3Service from '../services/s3Service.js';
 
 async function uploadFile(req, reply) {
     let uploadedFileKey = null;
@@ -390,7 +390,7 @@ async function deleteFile(req, reply) {
     }
 }
 
-module.exports = {
+export {
     uploadFile,
     getAllFiles,
     getFileById,

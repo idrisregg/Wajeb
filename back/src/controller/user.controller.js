@@ -1,4 +1,4 @@
-const User = require('../models/user.model');
+import User from '../models/user.model.js';
 
 async function getAllUsers(req, reply) {
     try {
@@ -8,19 +8,20 @@ async function getAllUsers(req, reply) {
         reply.status(500).send(error);
     }
 }
+
 async function getUserById(req, reply) {
     try {
-     const user = await User.findById(req.params.id);
-     reply.send(user);
+        const user = await User.findById(req.params.id);
+        reply.send(user);
     } catch (error) {
         reply.status(500).send(error);
     }
 }
+
 async function createUser(req, reply) {
     try {
         const { email, userName, password } = req.body;
         
-        // Check if user already exists with same email or username
         const existingUser = await User.findOne({
             $or: [{ email }, { userName }]
         });
@@ -55,14 +56,16 @@ async function createUser(req, reply) {
         });
     }
 }
+
 async function updateUser(req, reply) {
     try {
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, {new:true});
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
         reply.send(user);
     } catch (error) {
         reply.status(400).send(error);
     }
 }
+
 async function deleteUser(req, reply) {
     try {
         const user = await User.findByIdAndDelete(req.params.id);
@@ -72,11 +75,10 @@ async function deleteUser(req, reply) {
     }
 }
 
-
-module.exports = {
+export {
     getAllUsers,
     getUserById,
     createUser,
     updateUser,
     deleteUser
-}
+};

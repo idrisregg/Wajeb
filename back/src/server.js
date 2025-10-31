@@ -1,12 +1,14 @@
-const Fastify = require('fastify');
-require('dotenv').config();
-const mongoose = require('mongoose');
-const cors = require('@fastify/cors');
-const userRoutes = require('./routes/user.routes');
-const fileRoutes = require('./routes/file.routes');
-const fastifyMultipart = require('@fastify/multipart');
-const FileCleanupService = require('./services/fileCleanupService');
-const jwt = require("./plugins/jwt");
+import Fastify from 'fastify';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import cors from '@fastify/cors';
+import userRoutes from './routes/user.routes.js';
+import fileRoutes from './routes/file.routes.js';
+import fastifyMultipart from '@fastify/multipart';
+import FileCleanupService from './services/fileCleanupService.js';
+import jwt from "./plugins/jwt.js";
+
+dotenv.config();
 
 const fastify = Fastify({
     logger: true
@@ -89,3 +91,5 @@ process.on('SIGINT', async () => {
 });
 
 start();
+
+export { fastify };

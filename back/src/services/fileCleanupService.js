@@ -1,5 +1,5 @@
-const File = require('../models/file.model');
-const s3Service = require('./s3Service');
+import File from '../models/file.model.js';
+import s3Service from './s3Service.js';
 
 class FileCleanupService {
     constructor() {
@@ -105,4 +105,4 @@ class FileCleanupService {
     }
 }
 
-module.exports = FileCleanupService;
+export default FileCleanupService;

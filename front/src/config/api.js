@@ -33,4 +33,3 @@ const getCurrentEnvironment = () => {
 export const currentConfig = config[getCurrentEnvironment()];
 
 export default config;
-
