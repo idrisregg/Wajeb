@@ -79,20 +79,6 @@ APIKEY=your-api-key
 PORT=3000
 ```
 
-#### Frontend API Configuration (`/front/src/config/api.js`)
-```javascript
-const config = {
-  development: {
-    API_BASE_URL: 'http://localhost:3000',
-    // ... other config
-  },
-  production: {
-    API_BASE_URL: 'https://your-vps-domain.com', // Replace with your VPS domain
-    // ... other config
-  }
-};
-```
-
 ### 4. Run the Application
 
 #### Development Mode (Both Frontend & Backend)
