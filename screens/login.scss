@@ -1,0 +1,313 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #ddd;
+  font-size: 14px;
+}
+
+.tit {
+  text-align: center;
+  margin-bottom: 30px;
+  user-select: none;
+  color: #4e5291;
+  font-size: 35px;
+  font-family: "Noto Kufi Arabic", sans-serif;
+}
+
+.aw{
+  user-select: none;
+  margin-top: 5px;
+  color:#16201d;
+  font-size: 25px;
+}
+
+
+.container {
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  border-radius: 20px;
+  background-color: transparent;
+  width: 760px;
+  max-width: 100vw;
+  height: 480px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 20px;
+
+  .forms-container {
+    width: 50%;
+    position: relative;
+    text-align: center;
+
+
+    .form-control {
+      position: absolute;
+      width: 100%;
+      height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: all 0.5s ease-in;
+
+      h2 {
+        user-select: none;
+        font-family: "Noto Kufi Arabic", sans-serif;
+        color: #4e5291;
+        font-size: 2rem;
+        margin-bottom: 20px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        margin: 0 30px;
+
+        input {
+          margin: 12px 0;
+          padding: 14px 18px;
+          border-radius: 12px;
+          border: 1.5px solid transparent;
+          background: rgba(255, 255, 255, 0.7);
+          backdrop-filter: blur(6px);
+          font-size: 16px;
+          color: #2d2d2d;
+          font-family: "Noto Kufi Arabic", sans-serif;
+          text-align: right;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+          transition: all 0.25s ease-in-out;
+
+          &::placeholder {
+            color: #8b8b8b;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+            opacity: 0.9;
+          }
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(78, 82, 145, 0.3);
+            box-shadow: 0 3px 8px rgba(78, 82, 145, 0.1);
+          }
+
+          &:focus {
+            background: #fff;
+            border-color: #4e5291;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(78, 82, 145, 0.15);
+            transform: scale(1.01);
+          }
+        }
+
+        .sign {
+          font-size: 28px;
+          margin-top: 5px;
+          padding: 10px;
+          border-radius: 10px;
+          border: none;
+          background-color: #16201d;
+          color: #fff;
+          cursor: pointer;
+          transition: background 0.3s;
+
+          &:focus {
+            outline: none;
+          }
+
+          &:hover {
+            background-color: #4e5291;
+          }
+
+          &:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+          }
+        }
+
+        .error-message {
+          background: #fee;
+          color: #c53030;
+          padding: 0.75rem;
+          border-radius: 6px;
+          border: 1px solid #feb2b2;
+          margin: 1rem 0;
+          font-weight: 500;
+          text-align: center;
+          font-family: "Noto Kufi Arabic", sans-serif;
+        }
+      }
+
+      span {
+        margin: 10px 0;
+      }
+    }
+
+    .signup-form {
+      opacity: 0;
+      z-index: 1;
+      left: 200%;
+    }
+
+    .signin-form {
+      opacity: 1;
+      z-index: 2;
+      left: 0;
+    }
+  }
+
+  .intros-container {
+    width: 50%;
+    position: relative;
+    text-align: center;
+
+    
+
+    .intro-control {
+      position: absolute;
+      width: 100%;
+      height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: #fff;
+      transition: all 0.5s ease-in;
+      padding: 0 30px;
+
+      button {
+        font-size: large;
+        margin: 10px 0;
+        padding: 15px 30px;
+        border-radius: 10px;
+        border: none;
+        background-color: #16201d;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.3s;
+
+        &:hover,
+        &:focus {
+          background-color: #4e5291;
+        }
+      }
+    }
+
+    .signin-intro {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .signup-intro {
+      opacity: 0;
+      z-index: 1;
+    }
+  }
+
+  .change {
+    .signup-form {
+      opacity: 1;
+      z-index: 2;
+      transform: translateX(-100%);
+
+      button {
+        background-color: #2563eb !important;
+      }
+    }
+
+    .signin-form {
+      opacity: 0;
+      z-index: 1;
+      transform: translateX(-100%);
+    }
+
+    .intro-control {
+      transform: translateX(-100%);
+    }
+
+    .signin-intro {
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .signup-intro {
+      opacity: 1;
+      z-index: 2;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    height: 100vh;
+    width: 90vw;
+    border-radius: 0;
+
+    .forms-container {
+      width: 100%;
+      height: 50vh;
+      order: 2;
+
+      .form-control {
+        height: 50vh;
+      }
+
+      .signup-form {
+        left: 0;
+        margin-top: 70px;
+      }
+    }
+
+    .intros-container {
+      width: 100%;
+      height: 40vh;
+      left: 0;
+      order: 1;
+
+      .intro-control {
+        height: 40vh;
+      }
+    }
+
+    .change {
+
+      .signup-form,
+      .signin-form,
+      .intro-control {
+        transform: translateX(0);
+      }
+    }
+
+    .tit {
+      font-size: 30px;
+      margin-bottom: 40px;
+    }
+
+    .form-control h2 {
+      font-size: 1.6rem;
+    }
+
+    form input {
+      padding: 12px;
+    }
+
+    form button,
+    .intro-control button {
+      padding: 12px 25px;
+      font-size: 1rem;
+    }
+  }
+}
+

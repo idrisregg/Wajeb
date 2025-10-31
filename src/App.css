@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #96a39e;
+    height: 100%;
+    min-height: 100vh;
+}
+
+#root {
+    min-height: 100vh;
+    width: 100%;
+    height: 100%;
+}
+
+.app {
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.floating {
+    transform: translate(-50%, -50%);
+    animation: floating 2s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    user-select: none;
+      font-family: "Saira", sans-serif;
+}
+
+.logo {
+    pointer-events: none;
+    user-select: none;
+    height: 300px;
+    width: 300px;
+}
+
+@media (max-width: 600px) {
+    .logo {
+        height: 200px;
+        width: 200px;
+    }
+
+}

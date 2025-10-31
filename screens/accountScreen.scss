@@ -1,0 +1,304 @@
+// Account Screen Component
+.account-screen-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+.account-container{
+  span{
+    font-size: 30px;
+    margin-right: 20px;
+  }
+  label{
+    font-size: 28px;
+  }
+  p{
+    font-size: 30px;
+  }
+  .head{
+    text-align: center;
+    margin-bottom: 30px;
+  }
+}
+.section-header{
+  margin-top: 40px;
+}
+.save-btn{
+   margin-top:15px;
+  margin-bottom:15px;
+  cursor:pointer;
+  font-family: inherit;
+  font-size: 18px;
+  background: royalblue;
+  font-weight:600;
+  color: white;
+  padding: 0.7em 1em;
+  padding-left: 0.9em;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.edit-btn{
+   margin-top:15px;
+  margin-bottom:15px;
+  cursor:pointer;
+  font-family: inherit;
+  font-size: 18px;
+  background: royalblue;
+  font-weight:600;
+  color: white;
+  padding: 0.7em 1em;
+  padding-left: 0.9em;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.edit-btn:hover{
+  background:lightblue;
+}
+.edit-input{
+  padding: 0.75rem;
+  border: 1px solid black;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+.delete-action{
+  margin-top:15px;
+  margin-bottom:15px;
+  cursor:pointer;
+  font-family: inherit;
+  font-size: 18px;
+  background: royalblue;
+  font-weight:600;
+  color: white;
+  padding: 0.7em 1em;
+  padding-left: 0.9em;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.delete-action:hover{
+  background:lightblue;
+}
+.account-card {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px var(--shadow);
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+
+  h2 {
+    text-align: center;
+    color: var(--text-accent);
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+}
+
+.profile-info-section,
+.password-section,
+.account-actions-section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px dashed var(--border-color);
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  h3 {
+    color: var(--text-secondary);
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--accent-color);
+    padding-left: 1rem;
+  }
+}
+
+// Form Styling
+.profile-form,
+.password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+  }
+}
+
+.text-input {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-shadow);
+  }
+
+  &:disabled {
+    background: var(--disabled-bg);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+  }
+}
+
+// Button Styling
+.update-btn,
+.delete-account-btn,
+.logout-btn {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.update-btn {
+  background: var(--accent-color);
+  color: white;
+
+  &:hover:not(:disabled) {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--accent-shadow);
+  }
+}
+
+.delete-account-btn {
+  background: var(--danger-color);
+  color: white;
+  margin-right: 1rem;
+
+  &:hover:not(:disabled) {
+    background: var(--danger-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--danger-shadow);
+  }
+}
+
+.logout-btn {
+  background: var(--secondary-btn-bg);
+  color: var(--secondary-btn-text);
+
+  &:hover:not(:disabled) {
+    background: var(--secondary-btn-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--secondary-btn-shadow);
+  }
+}
+
+.update-btn:disabled,
+.delete-account-btn:disabled,
+.logout-btn:disabled {
+  background: var(--disabled-bg);
+  color: var(--disabled-text);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+// Message Styling
+.error-message {
+  background: var(--error-bg);
+  color: var(--error-text);
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--error-border);
+  margin-bottom: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.success-message {
+  background: var(--success-bg);
+  color: var(--success-text);
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--success-border);
+  margin-bottom: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+// Responsive Design
+@media (max-width: 500px) {
+  .account-container{
+    span{
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  label{
+    font-size: 18px;
+  }
+  p{
+    font-size: 20px;
+  }
+  .head{
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  }
+  .account-card {
+    padding: 1.5rem;
+
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
+
+  .profile-info-section h3,
+  .password-section h3,
+  .account-actions-section h3 {
+    font-size: 1.2rem;
+  }
+
+  .update-btn,
+  .delete-account-btn,
+  .logout-btn {
+    width: 100%;
+    margin-top: 0.75rem;
+  }
+
+  .delete-account-btn {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
