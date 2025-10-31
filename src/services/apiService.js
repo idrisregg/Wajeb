@@ -1,8 +1,8 @@
-import { currentConfig } from '../config/api.js';
+import config from '../config/api.js';
 
 class ApiService {
   constructor() {
-    this.baseURL = currentConfig.API_BASE_URL;
+    this.baseURL = config.API_BASE_URL;
   }
 
   async request(endpoint, options = {}) {
