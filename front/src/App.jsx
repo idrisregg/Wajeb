@@ -1,6 +1,6 @@
 import './App.css';
 import '../src/styles/themes.scss';
-import { BrowserRouter as Router, Routes, Route, Navigate, replace } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '../context/authContext';
 import { ThemeProvider } from '../context/themeContext';
 import { LanguageProvider } from '../context/languageContext';
