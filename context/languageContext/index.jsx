@@ -47,7 +47,7 @@ const translations = {
         // File Table
         myFiles: 'ملفاتي',
         fileName: 'اسم الملف',
-        sender: 'المرسل',
+        sender: 'التلميذ',
         size: 'الحجم',
         type: 'النوع',
         uploadDate: 'تاريخ الرفع',
@@ -219,7 +219,7 @@ const translations = {
         // File Table
         myFiles: 'My Files',
         fileName: 'File Name',
-        sender: 'Sender',
+        sender: 'Student',
         size: 'Size',
         type: 'Type',
         uploadDate: 'Upload Date',
@@ -391,7 +391,7 @@ const translations = {
         // File Table
         myFiles: 'Mes fichiers',
         fileName: 'Nom du fichier',
-        sender: 'Expéditeur',
+        sender: 'élève',
         size: 'Taille',
         type: 'Type',
         uploadDate: 'Date de téléchargement',
