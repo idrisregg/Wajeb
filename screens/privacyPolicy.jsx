@@ -13,13 +13,11 @@ const PrivacyPolicy = () => {
 
                 <div className="info-content">
 
-                    {/* Introduction */}
                     <section className="info-section">
                         <h2>{t('privacy_intro_title')}</h2>
                         <p>{t('privacy_intro_text')}</p>
                     </section>
 
-                    {/* Information We Collect */}
                     <section className="info-section">
                         <h2>{t('privacy_collect_title')}</h2>
 
@@ -38,7 +36,6 @@ const PrivacyPolicy = () => {
                         </ul>
                     </section>
 
-                    {/* How We Use Information */}
                     <section className="info-section">
                         <h2>{t('privacy_use_title')}</h2>
                         <p>{t('privacy_use_text')}</p>
@@ -49,7 +46,6 @@ const PrivacyPolicy = () => {
                         </ul>
                     </section>
 
-                    {/* Data Protection */}
                     <section className="info-section">
                         <h2>{t('privacy_protect_title')}</h2>
                         <p>{t('privacy_protect_text')}</p>
@@ -60,7 +56,6 @@ const PrivacyPolicy = () => {
                         </ul>
                     </section>
 
-                    {/* Sharing Information */}
                     <section className="info-section">
                         <h2>{t('privacy_share_title')}</h2>
                         <p>{t('privacy_share_text')}</p>
@@ -71,13 +66,11 @@ const PrivacyPolicy = () => {
                         </ul>
                     </section>
 
-                    {/* Cookies */}
                     <section className="info-section">
                         <h2>{t('privacy_cookies_title')}</h2>
                         <p>{t('privacy_cookies_text')}</p>
                     </section>
 
-                    {/* Your Rights */}
                     <section className="info-section">
                         <h2>{t('privacy_rights_title')}</h2>
                         <p>{t('privacy_rights_text')}</p>
@@ -88,13 +81,11 @@ const PrivacyPolicy = () => {
                         </ul>
                     </section>
 
-                    {/* Policy Updates */}
                     <section className="info-section">
                         <h2>{t('privacy_update_title')}</h2>
                         <p>{t('privacy_update_text')}</p>
                     </section>
 
-                    {/* Contact */}
                     <section className="info-section">
                         <h2>{t('privacy_contact_title')}</h2>
                         <p>{t('privacy_contact_text')}</p>
