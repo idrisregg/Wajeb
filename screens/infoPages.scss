@@ -99,8 +99,10 @@
     }
   }
 }
+.email-contact{
+  user-select: text;
+}
 
-/* Responsive */
 @media (max-width: 768px) {
   .info-page {
     height: 100%;

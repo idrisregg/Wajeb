@@ -99,7 +99,7 @@ const PrivacyPolicy = () => {
                         <h2>{t('privacy_contact_title')}</h2>
                         <p>{t('privacy_contact_text')}</p>
                         <div className="contact-info">
-                            <p><strong>{t('privacy_email_label')}</strong> idrisregg@gmail.com</p>
+                            <p><strong>{t('privacy_email_label')}</strong> <span className='email-contact'>idrisregg@gmail.com</span></p>
                         </div>
                     </section>
                 </div>
