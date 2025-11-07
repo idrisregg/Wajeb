@@ -1,9 +1,9 @@
 import React from 'react';
-import { useTheme } from '../context/themeContext/index';
+import { useTheme } from '../hooks/useTheme';
 import './themeToggle.scss';
 
 const ThemeToggle = ({ className = '' }) => {
-    const { theme, toggleTheme, isDark } = useTheme();
+    const {toggleTheme, isDark } = useTheme();
 
     return (
         <button 

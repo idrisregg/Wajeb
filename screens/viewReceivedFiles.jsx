@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { apiService } from '../src/services/apiService';
 import './viewReceivedFiles.scss';
-import { useLanguage } from '../context/languageContext';
+import { useLanguage } from '../hooks/useLanguage';
 
 
 const ViewReceivedFiles = () => {
