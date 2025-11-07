@@ -13,7 +13,6 @@ A modern, multilingual Home Work management platform with dark/light theme suppo
 
 ### Authentication System
 - User registration and login
-- JWT token-based authentication
 - Protected routes
 - Account management (edit profile, delete account)
 
