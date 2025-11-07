@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { apiService } from '../../src/services/apiService';
 
-const AuthContext = createContext({
+
+export const AuthContext = createContext({
     user: null,
     token: null,
-    login: () => {},
-    logout: () => {},
-    register: () => {},
+    login: () => { },
+    logout: () => { },
+    register: () => { },
     loading: false
 });
 
@@ -15,22 +16,21 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('Access_Token'));
     const [loading, setLoading] = useState(false);
 
-    // Check if user is logged in on app start
     useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const data = await apiService.getUserInfo();
+                setUser(data.user);
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+                logout();
+            }
+        };
+
         if (token) {
             fetchUserInfo();
         }
     }, [token]);
-
-    const fetchUserInfo = async () => {
-        try {
-            const data = await apiService.getUserInfo();
-            setUser(data.user);
-        } catch (error) {
-            console.error('Error fetching user info:', error);
-            logout();
-        }
-    };
 
     const login = async (email, password) => {
         setLoading(true);
@@ -79,4 +79,4 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth= () => useContext(AuthContext);

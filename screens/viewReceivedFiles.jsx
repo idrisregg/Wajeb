@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../hooks/useAuth';
 import { apiService } from '../src/services/apiService';
 import './viewReceivedFiles.scss';
 import { useLanguage } from '../context/languageContext';
@@ -35,7 +35,7 @@ const ViewReceivedFiles = () => {
         }
     }, [token, currentPage]);
 
-    const handleDownload = async (fileId, fileName) => {
+    const handleDownload = async (fileId) => {
         try {
             await apiService.downloadFile(fileId);
 

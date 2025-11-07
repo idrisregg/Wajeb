@@ -1,8 +1,8 @@
 import './login.scss';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useAuth } from '../context/authContext';
-import { useLanguage } from '../context/languageContext';
+import { useState } from 'react';
+import { useAuth } from '../hooks/useAuth';
+import { useLanguage } from '../hooks/useLanguage';
 
 const Login = () => {
     const navigate = useNavigate();

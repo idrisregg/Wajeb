@@ -1,6 +1,6 @@
 import React from 'react';
 import './infoPages.scss';
-import { useLanguage } from '../context/languageContext';
+import { useLanguage } from '../hooks/useLanguage';
 
 const PrivacyPolicy = () => {
     const { t } = useLanguage();

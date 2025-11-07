@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../hooks/useAuth';
 import { apiService } from '../src/services/apiService';
 import './accountScreen.scss';
-import { useLanguage } from '../context/languageContext';
+import { useLanguage } from '../hooks/useLanguage';
 
 
 const AccountScreen = () => {
@@ -10,9 +10,6 @@ const AccountScreen = () => {
     const { user, logout } = useAuth();
     const [isEditing, setIsEditing] = useState(false);
     const [newUserName, setNewUserName] = useState(user?.userName || '');
-    const [password, setPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -24,14 +21,14 @@ const AccountScreen = () => {
         setMessage('');
 
         try {
-            const data = await apiService.updateUser(user.id, {
+             await apiService.updateUser(user.id, {
                 userName: newUserName
             });
 
             setMessage('تم تحديث الملف الشخصي بنجاح');
             setIsEditing(false);
-            // Update user in context
-            window.location.reload(); // Simple way to refresh user data
+        
+            window.location.reload();
         } catch (err) {
             setError(err.message || 'خطأ في الشبكة. يرجى المحاولة مرة أخرى');
         } finally {
@@ -113,7 +110,6 @@ const AccountScreen = () => {
                     )}
                 </div>
 
-                {/* Account Actions */}
                 <div className="account-section">
                     <div className="section-header">
                         <h2>{t('accountActions')}</h2>

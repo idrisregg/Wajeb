@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../hooks/useAuth';
 import './signup.scss';
-import { useLanguage } from "../context/languageContext";
+import { useLanguage } from "../hooks/useLanguage";
 
 const Signup = () => {
     const{t}=useLanguage();

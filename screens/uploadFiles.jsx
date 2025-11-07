@@ -1,12 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { useAuth } from '../context/authContext';
 import { apiService } from '../src/services/apiService';
 import './uploadFiles.scss';
-import { useLanguage } from '../context/languageContext';
+import { useLanguage } from '../hooks/useLanguage';
 
 const UploadFiles = () => {
     const {t} = useLanguage();
-    const { token } = useAuth();
     const [file, setFile] = useState(null);
     const [senderName, setSenderName] = useState('');
     const [recipientUserName, setRecipientUserName] = useState('');
@@ -62,8 +60,7 @@ const UploadFiles = () => {
             formData.append('description', description.trim());
             formData.append('tags', tags.trim());
 
-            const response = await apiService.uploadFile(formData);
-
+            await apiService.uploadFile(formData);
             setMessage('✅ File uploaded successfully!');
 
             setFile(null);

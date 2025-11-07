@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react';
-import { useAuth } from '../context/authContext';
-import { useLanguage } from '../context/languageContext';
+import { useAuth } from '../hooks/useAuth';
+import { useLanguage } from '../hooks/useLanguage';
 import ThemeToggle from '../comps/themeToggle';
 import UploadFiles from './uploadFiles';
 import ViewReceivedFiles from './viewReceivedFiles';
