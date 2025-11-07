@@ -1,11 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-export const LanguageContext = createContext({
-    language: 'ar',
-    setLanguage: () => { },
-    t: () => '',
-    isRTL: true
-});
+import React, {useState, useEffect } from 'react';
+import { LanguageContext } from "./languageContext";
 
 // Translation files
 const translations = {
@@ -554,7 +548,5 @@ export const LanguageProvider = ({ children }) => {
         </LanguageContext.Provider>
     );
 };
-
-export const useLanguage = () => useContext(LanguageContext);
 
 
