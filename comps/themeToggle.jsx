@@ -3,8 +3,8 @@ import { useTheme } from '../hooks/useTheme';
 import './themeToggle.scss';
 
 const ThemeToggle = ({ className = '' }) => {
-    const {toggleTheme, isDark } = useTheme();
-
+    const { toggleTheme, isDark } = useTheme();
+    
     return (
         <button 
             className={`theme-toggle ${className}`}
@@ -38,10 +38,8 @@ const ThemeToggle = ({ className = '' }) => {
                     </svg>
                 )}
             </div>
-   
         </button>
     );
 };
 
 export default ThemeToggle;
-
