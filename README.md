@@ -67,12 +67,13 @@ cd wajeb-app
 npm run dev
 ```
 
+#### Test
+```bash
+npm test
+```
 
 #### Production Mode
 ```bash
 npm run start
 
-#### Test Mode
-npm test
-```
 
