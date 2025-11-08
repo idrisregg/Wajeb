@@ -62,7 +62,7 @@ cd wajeb-app
 
 ### 4. Run the Application
 
-#### Development Mode (Both Frontend & Backend)
+#### Development Mode
 ```bash
 npm run dev
 ```
@@ -71,5 +71,8 @@ npm run dev
 #### Production Mode
 ```bash
 npm run start
+
+#### Test Mode
+npm test
 ```
 
