@@ -1,73 +1,66 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { QueryClient, QueryClientProvider, useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiService } from '../../src/services/apiService';
-import { AuthContext } from './authContext';
 
+export const AuthContext = React.createContext(null);
 
-export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [token, setToken] = useState(localStorage.getItem('Access_Token'));
-    const [loading, setLoading] = useState(false);
+const queryClient = new QueryClient();
 
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            try {
-                const data = await apiService.getUserInfo();
-                setUser(data.user);
-            } catch (error) {
-                console.error('Error fetching user info:', error);
-                logout();
-            }
-        };
+const AuthProviderContent = ({ children }) => {
+  const queryClient = useQueryClient();
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('Access_Token'));
 
-        if (token) {
-            fetchUserInfo();
-        }
-    }, [token]);
+  const logout = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem('Access_Token');
+    queryClient.removeQueries(['userInfo']);
+  };
 
-    const login = async (email, password) => {
-        setLoading(true);
-        try {
-            const data = await apiService.login(email, password);
-            setToken(data.token);
-            setUser(data.user);
-            localStorage.setItem('Access_Token', data.token);
-            return { success: true };
-        } catch (error) {
-            return { success: false, error: error.message || 'Network error. Please try again.' };
-        } finally {
-            setLoading(false);
-        }
-    };
+  useQuery({
+    queryKey: ['userInfo', token],
+    queryFn: () => apiService.getUserInfo(),
+    enabled: !!token,
+    onSuccess: (data) => setUser(data.user),
+    onError: () => logout(),
+  });
 
-    const register = async (userName, email, password) => {
-        setLoading(true);
-        try {
-            const data = await apiService.register(userName, email, password);
-            return { success: true, message: data.message };
-        } catch (error) {
-            return { success: false, error: error.message || 'Network error. Please try again.' };
-        } finally {
-            setLoading(false);
-        }
-    };
+  const loginMutation = useMutation({
+    mutationFn: ({ email, password }) => apiService.login(email, password),
+    onSuccess: (data) => {
+      setToken(data.token);
+      setUser(data.user);
+      localStorage.setItem('Access_Token', data.token);
+      queryClient.invalidateQueries(['userInfo']);
+    },
+  });
 
-    const logout = () => {
-        setToken(null);
-        setUser(null);
-        localStorage.removeItem('Access_Token');
-    };
+  const registerMutation = useMutation({
+    mutationFn: ({ userName, email, password }) =>
+      apiService.register(userName, email, password),
+  });
 
-    return (
-        <AuthContext.Provider value={{
-            user,
-            token,
-            login,
-            logout,
-            register,
-            loading
-        }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const loading = loginMutation.isLoading || registerMutation.isLoading;
+
+  return (
+    <AuthContext.Provider value={{
+      user,
+      token,
+      login: loginMutation.mutateAsync,
+      logout,
+      register: registerMutation.mutateAsync,
+      loading
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
+export const AuthProvider = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    <AuthProviderContent>
+      {children}
+    </AuthProviderContent>
+  </QueryClientProvider>
+);

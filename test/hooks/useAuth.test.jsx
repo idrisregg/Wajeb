@@ -49,7 +49,6 @@ describe('useAuth', () => {
         expect(result.current.user).toBeNull();
         expect(result.current.isAuthenticated).toBe(false);
 
-        // Update the value
         currentValue = {
             user: { id: '456', name: 'Updated User', email: 'updated@example.com' },
             isAuthenticated: true,
