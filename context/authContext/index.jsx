@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider, useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiService } from '../../src/services/apiService';
 
@@ -15,30 +15,21 @@ const queryClient = new QueryClient({
 
 const AuthProviderContent = ({ children }) => {
   const queryClient = useQueryClient();
-  const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem('Access_Token'));
 
   const logout = () => {
     setToken(null);
-    setUser(null);
     localStorage.removeItem('Access_Token');
     queryClient.clear();
   };
 
-  // Fetch user info when token exists
+  // Fetch user info when token exists - this IS our user state
   const { data: userInfoData } = useQuery({
     queryKey: ['userInfo', token],
     queryFn: () => apiService.getUserInfo(),
     enabled: !!token,
     retry: false,
   });
-
-  // Update user state when query succeeds
-  useEffect(() => {
-    if (userInfoData?.user) {
-      setUser(userInfoData.user);
-    }
-  }, [userInfoData]);
 
   const loginMutation = useMutation({
     mutationFn: ({ email, password }) => apiService.login(email, password),
@@ -47,10 +38,10 @@ const AuthProviderContent = ({ children }) => {
         setToken(data.token);
         localStorage.setItem('Access_Token', data.token);
       }
+      // Set user data in cache immediately
       if (data.user) {
-        setUser(data.user);
+        queryClient.setQueryData(['userInfo', data.token], { user: data.user });
       }
-      queryClient.invalidateQueries({ queryKey: ['userInfo'] });
     },
   });
 
@@ -89,7 +80,7 @@ const AuthProviderContent = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{
-      user,
+      user: userInfoData?.user || null, // Direct access to query data
       token,
       login,
       logout,
