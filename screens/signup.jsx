@@ -12,6 +12,7 @@ const Signup = () => {
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [redoPassword, setRedoPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
@@ -31,6 +32,10 @@ const Signup = () => {
 
         if (password.length < 6) {
             setError('Password must be at least 6 characters');
+            return;
+        }
+        if(password!==redoPassword){
+            setError('Passwords do not match');
             return;
         }
 
@@ -72,6 +77,13 @@ const Signup = () => {
                         required 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <input 
+                        type="password" 
+                        placeholder={t('redoPassword')}
+                        required 
+                        value={redoPassword} 
+                        onChange={(e) => setRedoPassword(e.target.value)}
                     />
                     {error && <div className="error-message">{error}</div>}
                     {success && <div className="success-message">{success}</div>}
